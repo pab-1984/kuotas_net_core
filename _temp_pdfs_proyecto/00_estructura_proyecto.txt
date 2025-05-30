@@ -1,0 +1,545 @@
+/Users/pabloflores/Desktop/migracion-net-core/Kuotasmig.Core
+(0tqq (B.DS_Store
+(0tqq (BData
+(0x   mqq (BBDService.cs
+(0tqq (BKuotasmig.Core.csproj
+(0tqq (BModels
+(0x   tqq (BCalculadoraEntry.cs
+(0x   tqq (BFilaAmortizacion.cs
+(0x   mqq (BUsuario.cs
+(0tqq (BPages
+(0x   tqq (BDefault.cshtml
+(0x   tqq (BDefault.cshtml.cs
+(0x   tqq (BError.cshtml
+(0x   tqq (BError.cshtml.cs
+(0x   tqq (BIndex.cshtml
+(0x   tqq (BIndex.cshtml.cs
+(0x   tqq (BLogin.cshtml
+(0x   tqq (BLogin.cshtml.cs
+(0x   tqq (BPlanillaDeAmortizacion.cshtml
+(0x   tqq (BPlanillaDeAmortizacion.cshtml.cs
+(0x   tqq (BPrivacy.cshtml
+(0x   tqq (BPrivacy.cshtml.cs
+(0x   tqq (BShared
+(0x   x   tqq (B_Layout.cshtml
+(0x   x   tqq (B_Layout.cshtml.css
+(0x   x   mqq (B_ValidationScriptsPartial.cshtml
+(0x   tqq (B_ViewImports.cshtml
+(0x   mqq (B_ViewStart.cshtml
+(0tqq (BProgram.cs
+(0tqq (BProperties
+(0x   mqq (BlaunchSettings.json
+(0tqq (BServices
+(0x   tqq (BCalculadoraService.cs
+(0x   tqq (BCalculoAmortizacionService.cs
+(0x   mqq (BUsuarioService.cs
+(0tqq (Bappsettings.Development.json
+(0tqq (Bappsettings.json
+(0tqq (Bbin
+(0x   mqq (BDebug
+(0x       mqq (Bnet8.0
+(0x           tqq (BAzure.Core.dll
+(0x           tqq (BAzure.Identity.dll
+(0x           tqq (BHumanizer.dll
+(0x           tqq (BKuotasmig.Core
+(0x           tqq (BKuotasmig.Core.deps.json
+(0x           tqq (BKuotasmig.Core.dll
+(0x           tqq (BKuotasmig.Core.pdb
+(0x           tqq (BKuotasmig.Core.runtimeconfig.json
+(0x           tqq (BKuotasmig.Core.staticwebassets.runtime.json
+(0x           tqq (BMicrosoft.AspNetCore.Razor.Language.dll
+(0x           tqq (BMicrosoft.Bcl.AsyncInterfaces.dll
+(0x           tqq (BMicrosoft.Bcl.Cryptography.dll
+(0x           tqq (BMicrosoft.Build.Framework.dll
+(0x           tqq (BMicrosoft.Build.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.AnalyzerUtilities.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.CSharp.Features.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.CSharp.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.Elfie.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.Features.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.Razor.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.Scripting.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.Workspaces.dll
+(0x           tqq (BMicrosoft.CodeAnalysis.dll
+(0x           tqq (BMicrosoft.Data.SqlClient.dll
+(0x           tqq (BMicrosoft.DiaSymReader.dll
+(0x           tqq (BMicrosoft.DotNet.Scaffolding.Shared.dll
+(0x           tqq (BMicrosoft.Extensions.Caching.Memory.dll
+(0x           tqq (BMicrosoft.Extensions.DependencyInjection.Abstractions.dll
+(0x           tqq (BMicrosoft.Extensions.DependencyInjection.dll
+(0x           tqq (BMicrosoft.Extensions.DependencyModel.dll
+(0x           tqq (BMicrosoft.Extensions.Logging.Abstractions.dll
+(0x           tqq (BMicrosoft.Extensions.Options.dll
+(0x           tqq (BMicrosoft.Identity.Client.Extensions.Msal.dll
+(0x           tqq (BMicrosoft.Identity.Client.dll
+(0x           tqq (BMicrosoft.IdentityModel.Abstractions.dll
+(0x           tqq (BMicrosoft.IdentityModel.JsonWebTokens.dll
+(0x           tqq (BMicrosoft.IdentityModel.Logging.dll
+(0x           tqq (BMicrosoft.IdentityModel.Protocols.OpenIdConnect.dll
+(0x           tqq (BMicrosoft.IdentityModel.Protocols.dll
+(0x           tqq (BMicrosoft.IdentityModel.Tokens.dll
+(0x           tqq (BMicrosoft.NET.StringTools.dll
+(0x           tqq (BMicrosoft.SqlServer.Server.dll
+(0x           tqq (BMicrosoft.VisualStudio.Web.CodeGeneration.Core.dll
+(0x           tqq (BMicrosoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll
+(0x           tqq (BMicrosoft.VisualStudio.Web.CodeGeneration.Templating.dll
+(0x           tqq (BMicrosoft.VisualStudio.Web.CodeGeneration.Utils.dll
+(0x           tqq (BMicrosoft.VisualStudio.Web.CodeGeneration.dll
+(0x           tqq (BMicrosoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+(0x           tqq (BMono.TextTemplating.dll
+(0x           tqq (BNewtonsoft.Json.dll
+(0x           tqq (BNuGet.Common.dll
+(0x           tqq (BNuGet.Configuration.dll
+(0x           tqq (BNuGet.DependencyResolver.Core.dll
+(0x           tqq (BNuGet.Frameworks.dll
+(0x           tqq (BNuGet.LibraryModel.dll
+(0x           tqq (BNuGet.Packaging.dll
+(0x           tqq (BNuGet.ProjectModel.dll
+(0x           tqq (BNuGet.Protocol.dll
+(0x           tqq (BNuGet.Versioning.dll
+(0x           tqq (BSystem.ClientModel.dll
+(0x           tqq (BSystem.CodeDom.dll
+(0x           tqq (BSystem.Composition.AttributedModel.dll
+(0x           tqq (BSystem.Composition.Convention.dll
+(0x           tqq (BSystem.Composition.Hosting.dll
+(0x           tqq (BSystem.Composition.Runtime.dll
+(0x           tqq (BSystem.Composition.TypedParts.dll
+(0x           tqq (BSystem.Configuration.ConfigurationManager.dll
+(0x           tqq (BSystem.Diagnostics.EventLog.dll
+(0x           tqq (BSystem.Formats.Asn1.dll
+(0x           tqq (BSystem.IO.Pipelines.dll
+(0x           tqq (BSystem.IdentityModel.Tokens.Jwt.dll
+(0x           tqq (BSystem.Memory.Data.dll
+(0x           tqq (BSystem.Reflection.MetadataLoadContext.dll
+(0x           tqq (BSystem.Security.Cryptography.Pkcs.dll
+(0x           tqq (BSystem.Security.Cryptography.ProtectedData.dll
+(0x           tqq (BSystem.Text.Encodings.Web.dll
+(0x           tqq (BSystem.Text.Json.dll
+(0x           tqq (Baf
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bappsettings.Development.json
+(0x           tqq (Bappsettings.json
+(0x           tqq (Bar
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Baz
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bbg
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bbn-BD
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bcs
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bda
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bde
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bdotnet-aspnet-codegenerator-design.dll
+(0x           tqq (Bel
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bes
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bfa
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bfi-FI
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bfr
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bfr-BE
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bhe
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bhr
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bhu
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bhy
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bid
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bis
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bit
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bja
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bko
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bko-KR
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bku
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Blibman.json
+(0x           tqq (Blv
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bms-MY
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bmt
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bnb
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bnb-NO
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bnl
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bpl
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bpt
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bpt-BR
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bro
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bru
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Bruntimes
+(0x           x   tqq (Bbrowser
+(0x           x   x   mqq (Blib
+(0x           x   x       mqq (Bnet8.0
+(0x           x   x           mqq (BSystem.Text.Encodings.Web.dll
+(0x           x   tqq (Bunix
+(0x           x   x   mqq (Blib
+(0x           x   x       mqq (Bnet8.0
+(0x           x   x           mqq (BMicrosoft.Data.SqlClient.dll
+(0x           x   tqq (Bwin
+(0x           x   x   mqq (Blib
+(0x           x   x       mqq (Bnet8.0
+(0x           x   x           tqq (BMicrosoft.Data.SqlClient.dll
+(0x           x   x           tqq (BSystem.Diagnostics.EventLog.Messages.dll
+(0x           x   x           tqq (BSystem.Diagnostics.EventLog.dll
+(0x           x   x           mqq (BSystem.Security.Cryptography.Pkcs.dll
+(0x           x   tqq (Bwin-arm64
+(0x           x   x   mqq (Bnative
+(0x           x   x       mqq (BMicrosoft.Data.SqlClient.SNI.dll
+(0x           x   tqq (Bwin-x64
+(0x           x   x   mqq (Bnative
+(0x           x   x       mqq (BMicrosoft.Data.SqlClient.SNI.dll
+(0x           x   mqq (Bwin-x86
+(0x           x       mqq (Bnative
+(0x           x           mqq (BMicrosoft.Data.SqlClient.SNI.dll
+(0x           tqq (Bsk
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bsl
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bsr
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bsr-Latn
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bsv
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bth-TH
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Btr
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           tqq (Buk
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Buz-Cyrl-UZ
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Buz-Latn-UZ
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bvi
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bzh-CN
+(0x           x   mqq (BHumanizer.resources.dll
+(0x           tqq (Bzh-Hans
+(0x           x   tqq (BHumanizer.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x           x   tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x           x   mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0x           mqq (Bzh-Hant
+(0x               tqq (BHumanizer.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.CSharp.Features.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.CSharp.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.Features.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.Scripting.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.Workspaces.resources.dll
+(0x               tqq (BMicrosoft.CodeAnalysis.resources.dll
+(0x               mqq (BMicrosoft.Data.SqlClient.resources.dll
+(0tqq (Blibman.json
+(0tqq (Bobj
+(0x   tqq (BDebug
+(0x   x   mqq (Bnet8.0
+(0x   x       tqq (B.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+(0x   x       tqq (BKuotasmi.0F087F58.Up2Date
+(0x   x       tqq (BKuotasmig.Core.AssemblyInfo.cs
+(0x   x       tqq (BKuotasmig.Core.AssemblyInfoInputs.cache
+(0x   x       tqq (BKuotasmig.Core.GeneratedMSBuildEditorConfig.editorconfig
+(0x   x       tqq (BKuotasmig.Core.GlobalUsings.g.cs
+(0x   x       tqq (BKuotasmig.Core.MvcApplicationPartsAssemblyInfo.cache
+(0x   x       tqq (BKuotasmig.Core.RazorAssemblyInfo.cache
+(0x   x       tqq (BKuotasmig.Core.RazorAssemblyInfo.cs
+(0x   x       tqq (BKuotasmig.Core.assets.cache
+(0x   x       tqq (BKuotasmig.Core.csproj.AssemblyReference.cache
+(0x   x       tqq (BKuotasmig.Core.csproj.CoreCompileInputs.cache
+(0x   x       tqq (BKuotasmig.Core.csproj.FileListAbsolute.txt
+(0x   x       tqq (BKuotasmig.Core.dll
+(0x   x       tqq (BKuotasmig.Core.genruntimeconfig.cache
+(0x   x       tqq (BKuotasmig.Core.pdb
+(0x   x       tqq (Bapphost
+(0x   x       tqq (Bref
+(0x   x       x   mqq (BKuotasmig.Core.dll
+(0x   x       tqq (Brefint
+(0x   x       x   mqq (BKuotasmig.Core.dll
+(0x   x       tqq (Bscopedcss
+(0x   x       x   tqq (BPages
+(0x   x       x   x   mqq (BShared
+(0x   x       x   x       mqq (B_Layout.cshtml.rz.scp.css
+(0x   x       x   tqq (Bbundle
+(0x   x       x   x   mqq (BKuotasmig.Core.styles.css
+(0x   x       x   mqq (Bprojectbundle
+(0x   x       x       mqq (BKuotasmig.Core.bundle.scp.css
+(0x   x       tqq (Bstaticwebassets
+(0x   x       x   tqq (Bmsbuild.Kuotasmig.Core.Microsoft.AspNetCore.StaticWebAssets.props
+(0x   x       x   tqq (Bmsbuild.build.Kuotasmig.Core.props
+(0x   x       x   tqq (Bmsbuild.buildMultiTargeting.Kuotasmig.Core.props
+(0x   x       x   mqq (Bmsbuild.buildTransitive.Kuotasmig.Core.props
+(0x   x       tqq (Bstaticwebassets.build.json
+(0x   x       tqq (Bstaticwebassets.development.json
+(0x   x       mqq (Bstaticwebassets.pack.json
+(0x   tqq (BKuotasmig.Core.csproj.nuget.dgspec.json
+(0x   tqq (BKuotasmig.Core.csproj.nuget.g.props
+(0x   tqq (BKuotasmig.Core.csproj.nuget.g.targets
+(0x   tqq (Bproject.assets.json
+(0x   mqq (Bproject.nuget.cache
+(0mqq (Bwwwroot
+(0    tqq (B.DS_Store
+(0    tqq (Bcss
+(0    x   tqq (Banimate.css
+(0    x   tqq (Bbootstrap.css
+(0    x   tqq (Bbootstrap.min.css
+(0    x   tqq (Bclndr.css
+(0    x   tqq (Bcustom.css
+(0    x   tqq (Bfont-awesome.css
+(0    x   tqq (Bjqvmap.css
+(0    x   tqq (Blines.css
+(0    x   tqq (Bsite.css
+(0    x   tqq (Bstyle.css
+(0    x   mqq (Bstyle2.css
+(0    tqq (Bfavicon.ico
+(0    tqq (Bfonts
+(0    x   tqq (BFontAwesome.otf
+(0    x   tqq (Bfontawesome-webfont.eot
+(0    x   tqq (Bfontawesome-webfont.svg
+(0    x   tqq (Bfontawesome-webfont.ttf
+(0    x   tqq (Bfontawesome-webfont.woff
+(0    x   tqq (Bfontawesome-webfont.woff2
+(0    x   tqq (Bglyphicons-halflings-regular.eot
+(0    x   tqq (Bglyphicons-halflings-regular.svg
+(0    x   tqq (Bglyphicons-halflings-regular.ttf
+(0    x   tqq (Bglyphicons-halflings-regular.woff
+(0    x   mqq (Bglyphicons-halflings-regular.woff2
+(0    tqq (Bimages
+(0    x   tqq (B1 - copia.png
+(0    x   tqq (B1.png
+(0    x   tqq (B2.png
+(0    x   tqq (B3.png
+(0    x   tqq (B4.png
+(0    x   tqq (B5.png
+(0    x   tqq (Ba.png
+(0    x   tqq (Barrow-left.png
+(0    x   tqq (Barrow-right.png
+(0    x   tqq (Bbg.jpg
+(0    x   tqq (Bcloud.png
+(0    x   tqq (Bi1.png
+(0    x   tqq (Bi2.png
+(0    x   tqq (Bi3.png
+(0    x   tqq (Bi4.png
+(0    x   tqq (Bimg1.png
+(0    x   tqq (Block.png
+(0    x   tqq (Blogo.png
+(0    x   tqq (Bpic1.png
+(0    x   tqq (Bpic4.jpg
+(0    x   tqq (Btick.png
+(0    x   mqq (Buser.png
+(0    tqq (Bjs
+(0    x   tqq (BChart.js
+(0    x   tqq (Bbootstrap.js
+(0    x   tqq (Bbootstrap.min.js
+(0    x   tqq (Bclassie.js
+(0    x   tqq (Bclndr.js
+(0    x   tqq (Bcustom.js
+(0    x   tqq (Bd3.v3.js
+(0    x   tqq (Bjquery-1.11.1.min.js
+(0    x   tqq (Bjquery-1.4.2.min.js
+(0    x   tqq (Bjquery.circlechart.js
+(0    x   tqq (Bjquery.min.js
+(0    x   tqq (Bjquery.nicescroll.js
+(0    x   tqq (Bjquery.timers.js
+(0    x   tqq (Bjquery.vmap.js
+(0    x   tqq (Bjquery.vmap.sampledata.js
+(0    x   tqq (Bjquery.vmap.world.js
+(0    x   tqq (BmetisMenu.min.js
+(0    x   tqq (Bmodernizr.custom.js
+(0    x   tqq (Bmoment-2.2.1.js
+(0    x   tqq (Brickshaw.js
+(0    x   tqq (Bscripts.js
+(0    x   tqq (Bsite.js
+(0    x   tqq (Bskycons.js
+(0    x   tqq (Bunderscore-min.js
+(0    x   tqq (Bvalidator.min.js
+(0    x   mqq (Bwow.min.js
+(0    mqq (Blib
+(0        tqq (Bbootstrap
+(0        x   tqq (BLICENSE
+(0        x   tqq (Bcss
+(0        x   x   mqq (Bbootstrap.min.css
+(0        x   tqq (Bdist
+(0        x   x   tqq (Bcss
+(0        x   x   x   tqq (Bbootstrap-grid.css
+(0        x   x   x   tqq (Bbootstrap-grid.css.map
+(0        x   x   x   tqq (Bbootstrap-grid.min.css
+(0        x   x   x   tqq (Bbootstrap-grid.min.css.map
+(0        x   x   x   tqq (Bbootstrap-grid.rtl.css
+(0        x   x   x   tqq (Bbootstrap-grid.rtl.css.map
+(0        x   x   x   tqq (Bbootstrap-grid.rtl.min.css
+(0        x   x   x   tqq (Bbootstrap-grid.rtl.min.css.map
+(0        x   x   x   tqq (Bbootstrap-reboot.css
+(0        x   x   x   tqq (Bbootstrap-reboot.css.map
+(0        x   x   x   tqq (Bbootstrap-reboot.min.css
+(0        x   x   x   tqq (Bbootstrap-reboot.min.css.map
+(0        x   x   x   tqq (Bbootstrap-reboot.rtl.css
+(0        x   x   x   tqq (Bbootstrap-reboot.rtl.css.map
+(0        x   x   x   tqq (Bbootstrap-reboot.rtl.min.css
+(0        x   x   x   tqq (Bbootstrap-reboot.rtl.min.css.map
+(0        x   x   x   tqq (Bbootstrap-utilities.css
+(0        x   x   x   tqq (Bbootstrap-utilities.css.map
+(0        x   x   x   tqq (Bbootstrap-utilities.min.css
+(0        x   x   x   tqq (Bbootstrap-utilities.min.css.map
+(0        x   x   x   tqq (Bbootstrap-utilities.rtl.css
+(0        x   x   x   tqq (Bbootstrap-utilities.rtl.css.map
+(0        x   x   x   tqq (Bbootstrap-utilities.rtl.min.css
+(0        x   x   x   tqq (Bbootstrap-utilities.rtl.min.css.map
+(0        x   x   x   tqq (Bbootstrap.css
+(0        x   x   x   tqq (Bbootstrap.css.map
+(0        x   x   x   tqq (Bbootstrap.min.css
+(0        x   x   x   tqq (Bbootstrap.min.css.map
+(0        x   x   x   tqq (Bbootstrap.rtl.css
+(0        x   x   x   tqq (Bbootstrap.rtl.css.map
+(0        x   x   x   tqq (Bbootstrap.rtl.min.css
+(0        x   x   x   mqq (Bbootstrap.rtl.min.css.map
+(0        x   x   mqq (Bjs
+(0        x   x       tqq (Bbootstrap.bundle.js
+(0        x   x       tqq (Bbootstrap.bundle.js.map
+(0        x   x       tqq (Bbootstrap.bundle.min.js
+(0        x   x       tqq (Bbootstrap.bundle.min.js.map
+(0        x   x       tqq (Bbootstrap.esm.js
+(0        x   x       tqq (Bbootstrap.esm.js.map
+(0        x   x       tqq (Bbootstrap.esm.min.js
+(0        x   x       tqq (Bbootstrap.esm.min.js.map
+(0        x   x       tqq (Bbootstrap.js
+(0        x   x       tqq (Bbootstrap.js.map
+(0        x   x       tqq (Bbootstrap.min.js
+(0        x   x       mqq (Bbootstrap.min.js.map
+(0        x   mqq (Bjs
+(0        x       mqq (Bbootstrap.bundle.min.js
+(0        tqq (Bjquery
+(0        x   tqq (BLICENSE.txt
+(0        x   mqq (Bdist
+(0        x       tqq (Bjquery.js
+(0        x       tqq (Bjquery.min.js
+(0        x       mqq (Bjquery.min.map
+(0        tqq (Bjquery-validation
+(0        x   tqq (BLICENSE.md
+(0        x   mqq (Bdist
+(0        x       tqq (Badditional-methods.js
+(0        x       tqq (Badditional-methods.min.js
+(0        x       tqq (Bjquery.validate.js
+(0        x       mqq (Bjquery.validate.min.js
+(0        mqq (Bjquery-validation-unobtrusive
+(0            tqq (BLICENSE.txt
+(0            tqq (Bjquery.validate.unobtrusive.js
+(0            mqq (Bjquery.validate.unobtrusive.min.js
+
+104 directories, 439 files

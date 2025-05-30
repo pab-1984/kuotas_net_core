@@ -1,0 +1,163 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@* El resto de tus directivas @page, @model (si las tuviera un layout, aunque es raro para _Layout) *@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KuotasMig Core</title>
+
+    @* Bootstrap (instalado con LibMan) *@
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+
+    @* Font Awesome (copiado de tu proyecto original) *@
+    <link rel="stylesheet" href="~/css/font-awesome.css" asp-append-version="true" />
+
+    @* Tu CSS principal (style.css) *@
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+
+    @* Otros CSS de tu proyecto original que hayas copiado a wwwroot/css *@
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/clndr.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/jqvmap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/lines.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/style2.css" asp-append-version="true" /> Si lo necesitas *@
+
+    @* CSS específico del sitio generado por la plantilla de ASP.NET Core (opcional, puedes fusionarlo o eliminarlo si no lo usas) *@
+    @* Comentado porque el error 404 indica que no existe. Crea wwwroot/css/site.css si lo necesitas.
+       <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    *@
+</head>
+<body>
+    <header>
+        @* Tu estructura de navbar original era más compleja y estaba integrada con el sidebar
+           Necesitarás recrearla aquí si quieres la misma apariencia.
+           El siguiente es un navbar muy básico de Bootstrap 5 como placeholder.
+        *@
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-page="/Default">KuotasMig Core</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-page="/Default">Inicio</a>
+                        </li>
+                        @* Más links del navbar superior aquí *@
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (HttpContextAccessor.HttpContext != null && !string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("loginUSUARIO")))
+                        {
+                            <li class="nav-item">
+                                <span class="navbar-text me-3">
+                                    Hola, @HttpContextAccessor.HttpContext.Session.GetString("loginNOMBRE")!
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-page="/Default" asp-page-handler="Logout" class="d-inline">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Cerrar Sesión</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Login">Iniciar Sesión</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @* Esta es la estructura de wrapper y sidebar que tu CSS original (style.css y custom.css) parece esperar *@
+    <div id="wrapper">
+        <nav class="navbar-default sidebar" role="navigation"> @* Tu style.css da estilo a .navbar-default.sidebar *@
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu"> @* ID usado por metisMenu y custom.js *@
+                    <li>
+                        <a asp-page="/Default"><i class="fa fa-dashboard fa-fw nav_icon"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-cogs fa-fw nav_icon"></i> Calculadoras <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a asp-page="/PlanillaDeAmortizacion">Planilla de Amortización</a></li>
+                            <li><a asp-page="/CALCULODEMORADECUOTAS">Cálculo Mora Cuotas</a></li>
+                            <li><a asp-page="/CÁLCULODECUOTASIGUALESYMENSUALESDECAPITALEINTERÉS">Cuotas Iguales (Pesos)</a></li>
+                            <li><a asp-page="/CÁLCULODECUOTASIGUALESYMENSUALESDECAPITALEINTERÉSENUIYPESOS">Cuotas Iguales (UI y $)</a></li>
+                            <li><a asp-page="/CANCELACIÓNANTICIPADADECUOTASMENSUALESDECAPITALEINTERÉS">Cancelación Anticipada</a></li>
+                            <li><a asp-page="/CÁLCULODEMORADEUNCAPITAL">Mora de un Capital</a></li>
+                            <li><a asp-page="/CÁLCULODEMORADEVARIASCUOTASMENSUALESIGUALES">Mora Varias Cuotas Iguales</a></li>
+                            <li><a asp-page="/CÁLCULODEMORADEVARIASCUOTASMENSUALESIGUALESTODASVENCIDAS">Mora Varias Cuotas (Vencidas)</a></li>
+                            <li><a asp-page="/CalculoDeInteresCompuesto">Interés Compuesto</a></li>
+                            <li><a asp-page="/CalculoDeInteresSimple">Interés Simple</a></li>
+                            <li><a asp-page="/DescuentoDocumentoCompuesto">Descuento Documento</a></li>
+                            <<li><a asp-page="/DiasTranscurridos360">Días Transcurridos (360)</a></li>
+                            <li><a asp-page="/DIASTRANSCURRIDOS365">Días Transcurridos (365)</a></li>
+                            <li><a asp-page="/EQUIVALENCIADETASAS">Equivalencia de Tasas</a></li>
+                            <li><a asp-page="/LIQUIDACIONDEMORADEDISTINTOSMONTOSYDESDEDIFERENTESFECHAS">Liquidación Mora Dist. Montos</a></li>
+                            <li><a asp-page="/RendimientoAnualReal">Rendimiento Anual Real</a></li>
+                            <li><a asp-page="/SumarDiasACiertaFecha">Sumar Días a Fecha</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a asp-page="/typography"><i class="fa fa-font fa-fw nav_icon"></i> Tipografía (Ejemplo)</a>
+                    </li>
+                    @* Más elementos del menú lateral aquí, replicando la estructura de tu typography.html original si es necesario *@
+                </ul>
+            </div>
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid pt-3 pb-3"> @* Añadí pt-3 y pb-3 para padding *@
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted mt-auto py-3">
+        <div class="container">
+            <div class="copy_layout text-center"> @* Añadí text-center para el copyright *@
+                <p>Copyright &copy; @DateTime.Now.Year Modern. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    @* Scripts JS de tu proyecto original. Asegúrate del orden y dependencias. *@
+    <script src="~/js/metisMenu.min.js" asp-append-version="true"></script>
+    <script src="~/js/custom.js" asp-append-version="true"></script>
+
+    @* Si site.js de la plantilla de VS Code no es necesario o causa conflictos, puedes comentarlo/eliminarlo.
+       Si tu `site.js` original (el que usa moment y clndr) tiene funcionalidad general, asegúrate
+       de que es el que se está cargando aquí o fusiona su contenido.
+    *@
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
+
+    @* Scripts para gráficos y calendarios. Comentados inicialmente hasta que se aborde su migración específica. *@
+    <script src="~/js/moment-2.2.1.js" asp-append-version="true"></script>
+    <script src="~/js/underscore-min.js" asp-append-version="true"></script>
+    <script src="~/js/clndr.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script> @* Este es el que usa clndr *@
+
+
+    @* <script src="~/js/d3.v3.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/rickshaw.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/Chart.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/jquery.vmap.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/jquery.vmap.world.js" asp-append-version="true"></script> *@
+    @* <script src="~/js/jquery.vmap.sampledata.js" asp-append-version="true"></script> *@
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

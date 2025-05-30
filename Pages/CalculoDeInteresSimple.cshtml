@@ -1,0 +1,120 @@
+﻿@page
+@model Kuotasmig.Core.Pages.CalculoDeInteresSimpleModel
+@{
+    ViewData["Title"] = "Cálculo de Interés Simple";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    @* --- Sección Cálculo por Días --- *@
+    <div class="card mb-4">
+        <div class="card-header"><h4>Interés Simple (Tiempo en Días)</h4></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputDias.Capital"></label>
+                    <input asp-for="InputDias.Capital" class="form-control" type="number" step="any" />
+                    <span asp-validation-for="InputDias.Capital" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputDias.TasaAnual"></label>
+                    <input asp-for="InputDias.TasaAnual" class="form-control" type="number" step="any" />
+                    <span asp-validation-for="InputDias.TasaAnual" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputDias.TiempoDias"></label>
+                    <input asp-for="InputDias.TiempoDias" class="form-control" type="number" />
+                    <span asp-validation-for="InputDias.TiempoDias" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group align-self-end">
+                    <button type="submit" asp-page-handler="CalcularInteresDias" class="btn btn-primary w-100">Calcular</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoInteresDias))
+            {
+                <div class="alert alert-success mt-2">Intereses ($): @Model.ResultadoInteresDias</div>
+            }
+        </div>
+    </div>
+
+    @* --- Sección Cálculo por Meses --- *@
+    <div class="card mb-4">
+        <div class="card-header"><h4>Interés Simple (Tiempo en Meses)</h4></div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputMeses.Capital"></label>
+                    <input asp-for="InputMeses.Capital" class="form-control" type="number" step="any" />
+                    <span asp-validation-for="InputMeses.Capital" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputMeses.TasaAnual"></label>
+                    <input asp-for="InputMeses.TasaAnual" class="form-control" type="number" step="any" />
+                    <span asp-validation-for="InputMeses.TasaAnual" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputMeses.TiempoMeses"></label>
+                    <input asp-for="InputMeses.TiempoMeses" class="form-control" type="number" />
+                    <span asp-validation-for="InputMeses.TiempoMeses" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group align-self-end">
+                    <button type="submit" asp-page-handler="CalcularInteresMeses" class="btn btn-primary w-100">Calcular</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoInteresMeses))
+            {
+                <div class="alert alert-success mt-2">Intereses ($): @Model.ResultadoInteresMeses</div>
+            }
+        </div>
+    </div>
+
+    @* --- Sección Cálculo por Años --- *@
+    <div class="card mb-4">
+        <div class="card-header"><h4>Interés Simple (Tiempo en Años)</h4></div>
+        <div class="card-body">
+             <div class="row">
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputAños.Capital"></label>
+                    <input asp-for="InputAños.Capital" class="form-control" type="number" step="any" />
+                    <span asp-validation-for="InputAños.Capital" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputAños.TasaAnual"></label>
+                    <input asp-for="InputAños.TasaAnual" class="form-control" type="number" step="any" />
+                    <span asp-validation-for="InputAños.TasaAnual" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label asp-for="InputAños.TiempoAños"></label>
+                    <input asp-for="InputAños.TiempoAños" class="form-control" type="number" />
+                    <span asp-validation-for="InputAños.TiempoAños" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 form-group align-self-end">
+                    <button type="submit" asp-page-handler="CalcularInteresAños" class="btn btn-primary w-100">Calcular</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoInteresAños))
+            {
+                <div class="alert alert-success mt-2">Intereses ($): @Model.ResultadoInteresAños</div>
+            }
+        </div>
+    </div>
+
+    <hr />
+    <div class="form-group mt-3">
+        <button type="submit" asp-page-handler="Limpiar" class="btn btn-secondary" formnovalidate>Limpiar Todos los Campos</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

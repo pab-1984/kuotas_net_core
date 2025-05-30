@@ -1,0 +1,129 @@
+@page
+@model Kuotasmig.Core.Pages.LoginModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = null; // Para una página de login simple sin el layout principal
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KuotasMig Core</title>
+    @* Asegúrate que las rutas a los CSS son correctas y que los archivos existen en wwwroot/css *@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> @* Bootstrap moderno *@
+    <link rel="stylesheet" href="~/css/style.css" /> @* Tu CSS principal *@
+    <link rel="stylesheet" href="~/css/font-awesome.css" />
+    <style>
+        /* Estilos específicos del login original si los tenía */
+        body#login {
+            /* background: url(../images/bg.jpg)no-repeat; */ /* Debería ser ~/images/bg.jpg */
+            background-size: cover;
+            min-height: 100vh; /* Mejor que un min-height fijo */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto', sans-serif; /* Del style.css */
+        }
+
+        .app-cam { /* Del style.css, ajusta según sea necesario */
+            width: 350px; /* Un ancho fijo para el ejemplo */
+            padding: 20px;
+            background-color: rgba(255,255,255,0.9); /* Fondo semitransparente si tienes imagen */
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .form-heading { /* Del style.css */
+            margin-bottom: 1.5em;
+            text-align: center;
+            color: #000;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+         /* Ajusta los estilos de los inputs y botones según tu style.css */
+        .app-cam input[type="text"],
+        .app-cam input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            color: #555; /* Ajustado para mejor legibilidad */
+            font-size: 0.95em;
+            outline: none;
+            font-weight: 300;
+            border: 1px solid #ccc; /* Borde estándar */
+            background: #fff; /* Fondo blanco */
+            margin: 0 0 1em 0;
+            border-radius: 2px;
+        }
+
+        .app-cam input[type="submit"], .btn-login-custom {
+            font-size: 14px;
+            font-weight: 500; /* Un poco más de peso para el botón */
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+            padding: 12px 15px;
+            width: 100%;
+            border: none;
+            background: rgb(6, 217, 149); /* Color de tu style.css */
+            border-radius: 2px;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+        .app-cam input[type="submit"]:hover, .btn-login-custom:hover {
+            background: rgb(3, 197, 135); /* Un poco más oscuro al pasar el mouse */
+        }
+
+    </style>
+</head>
+<body id="login"> @* Aplica el ID si tu CSS lo requiere para el fondo *@
+    <div class="app-cam">
+        @* <div class="login-logo">
+            <img src="~/images/logo.png" alt="Logo" />  Reemplaza con tu logo si tienes 
+        </div> *@
+        <h2 class="form-heading">Iniciar Sesión</h2>
+        <form method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="form-group">
+                <input asp-for="Input.Usuario" type="text" class="form-control" placeholder="Usuario" required />
+                <span asp-validation-for="Input.Usuario" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Input.Contraseña" type="password" class="form-control" placeholder="Contraseña" required />
+                <span asp-validation-for="Input.Contraseña" class="text-danger"></span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.ErrorMessage
+                </div>
+            }
+
+            <button type="submit" class="btn-login-custom">Ingresar</button>
+
+            @*
+            <div class="login-social-link">
+                <a href="#" class="facebook">Facebook</a>
+                <a href="#" class="twitter">Twitter</a>
+            </div>
+            <ul class="new">
+                <li class="new_left"><p><a href="#">Olvidaste tu contraseña ?</a></p></li>
+                <li class="new_right"><p class="sign">Nuevo aquí? <a href="#">Registrate</a></p></li>
+                <div class="clearfix"></div>
+            </ul>
+            *@
+        </form>
+    </div>
+
+    @* Referencias a JS. Coloca jQuery antes que bootstrap.js *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @* <script src="~/js/custom.js"></script> Si tienes JS personalizado *@
+</body>
+</html>
