@@ -10,7 +10,193 @@ namespace Kuotasmig.Core.Services
     public class CalculoAmortizacionService // Puedes renombrar esta clase a CalculoFinancieroService si prefieres más adelante
     {
         // Dentro de la clase CalculoAmortizacionService (o tu servicio financiero)
+        public class ResultadoMoraVariasCuotasTodasVencidas
+        {
+            public double ImporteAPagar { get; set; }
+            // Podrías añadir más propiedades si quieres desglosar, como el monto acumulado antes del excedente.
+        }
 
+        public ResultadoMoraVariasCuotasTodasVencidas CalcularMoraVariasCuotasTodasVencidas(double montoCadaCuota, double tasaInteresMoraMensual, int numeroCuotasVencidasImpagas, int diasExcedentesMora)
+        {
+            Console.WriteLine($"MORA VARIAS CUOTAS (TODAS VENCIDAS + EXCEDENTE) (Servicio): MontoCuota={montoCadaCuota}, TasaMoraMensual%={tasaInteresMoraMensual}, NumCuotasVencidas={numeroCuotasVencidasImpagas}, DiasExcedentes={diasExcedentesMora}");
+
+            if (montoCadaCuota <= 0 || tasaInteresMoraMensual < 0 || numeroCuotasVencidasImpagas <= 0 || diasExcedentesMora < 0)
+            {
+                return new ResultadoMoraVariasCuotasTodasVencidas { ImporteAPagar = montoCadaCuota * numeroCuotasVencidasImpagas };
+            }
+
+            double tasaInteresMora = tasaInteresMoraMensual / 100.0;
+            double montoAcumuladoConMora;
+
+            // Calculamos el valor futuro de las cuotas vencidas (como en el método anterior)
+            if (tasaInteresMora == 0)
+            {
+                montoAcumuladoConMora = montoCadaCuota * numeroCuotasVencidasImpagas;
+            }
+            else
+            {
+                double factorValorFuturoAnualidad = (Math.Pow(1.0 + tasaInteresMora, numeroCuotasVencidasImpagas) - 1.0) / tasaInteresMora;
+                montoAcumuladoConMora = montoCadaCuota * factorValorFuturoAnualidad;
+            }
+
+            // Ahora, calculamos el interés adicional por los días excedentes sobre el monto acumulado.
+            // Para esto, necesitamos una tasa diaria efectiva de la tasa de mora mensual.
+            double importeFinalAPagar = montoAcumuladoConMora;
+            if (diasExcedentesMora > 0 && tasaInteresMora > 0) // Solo aplicar mora excedente si hay días y tasa
+            {
+                // Tasa Diaria Efectiva = (1 + TasaMoraMensual)^(1/30) - 1
+                double tasaDiariaEfectivaMora = Math.Pow(1.0 + tasaInteresMora, 1.0 / 30.0) - 1.0;
+
+                if (tasaDiariaEfectivaMora > -1) // Evitar problemas con Math.Pow si tasa es -100%
+                {
+                    importeFinalAPagar = montoAcumuladoConMora * Math.Pow(1.0 + tasaDiariaEfectivaMora, diasExcedentesMora);
+                }
+                else
+                {
+                    importeFinalAPagar = 0; // Si la tasa de mora es -100% o peor
+                }
+            }
+            else if (diasExcedentesMora > 0 && tasaInteresMora == 0) // Si hay días excedentes pero tasa de mora es 0
+            {
+                // No se acumula más interés
+                importeFinalAPagar = montoAcumuladoConMora;
+            }
+
+
+            return new ResultadoMoraVariasCuotasTodasVencidas
+            {
+                ImporteAPagar = importeFinalAPagar
+            };
+        }
+
+        public class ResultadoMoraVariasCuotasIguales
+        {
+            public double ImporteAPagar { get; set; } // Esto es C * [(1+i)^n - 1] / i
+            // Si quieres desglosar la mora, puedes añadir más propiedades
+            // public double TotalCapitalCuotas { get; set; }
+            // public double TotalInteresesMora { get; set; }
+        }
+
+        public ResultadoMoraVariasCuotasIguales CalcularMoraVariasCuotasIguales(double montoCadaCuota, double tasaInteresMoraMensual, int numeroCuotasVencidasImpagas)
+        {
+            Console.WriteLine($"MORA VARIAS CUOTAS IGUALES (Servicio): MontoCuota={montoCadaCuota}, TasaMoraMensual%={tasaInteresMoraMensual}, NumCuotasVencidas={numeroCuotasVencidasImpagas}");
+
+            if (montoCadaCuota <= 0 || tasaInteresMoraMensual < 0 || numeroCuotasVencidasImpagas <= 0)
+            {
+                // Si los datos son inválidos, devolver el capital de las cuotas sin mora o un error
+                return new ResultadoMoraVariasCuotasIguales { ImporteAPagar = montoCadaCuota * numeroCuotasVencidasImpagas };
+            }
+
+            double tasaInteresMora = tasaInteresMoraMensual / 100.0;
+            double importeAPagar;
+
+            // La fórmula original era:
+            // COEFDIARIO = Math.Pow(X, Y) - 1; donde X = (1 + TasaMoraMensual/100), Y = NumeroCuotasVencidas
+            // COEFDIARIO2 = COEFDIARIO / (TasaMoraMensual / 100);
+            // TXTIMPORTEAPAGR.Text = (COEFDIARIO2 * MontoCuota).ToString("N");
+            // Esta fórmula es para el valor futuro de una anualidad: VF = C * [((1+i)^n - 1) / i]
+            // Donde:
+            // C = Monto de cada cuota
+            // i = Tasa de interés por período (tasaInteresMora)
+            // n = Número de períodos (numeroCuotasVencidasImpagas)
+
+            if (tasaInteresMora == 0) // Si la tasa de mora es 0%
+            {
+                importeAPagar = montoCadaCuota * numeroCuotasVencidasImpagas;
+            }
+            else
+            {
+                double factorValorFuturoAnualidad = (Math.Pow(1.0 + tasaInteresMora, numeroCuotasVencidasImpagas) - 1.0) / tasaInteresMora;
+                importeAPagar = montoCadaCuota * factorValorFuturoAnualidad;
+            }
+
+            return new ResultadoMoraVariasCuotasIguales
+            {
+                ImporteAPagar = importeAPagar
+                // TotalCapitalCuotas = montoCadaCuota * numeroCuotasVencidasImpagas,
+                // TotalInteresesMora = importeAPagar - (montoCadaCuota * numeroCuotasVencidasImpagas)
+            };
+        }
+
+        public class ResultadoMoraCapital
+        {
+            public int DiasDeAtraso { get; set; }
+            public double InteresesMoratorios { get; set; }
+            public double TotalAPagar { get; set; }
+        }
+
+        public ResultadoMoraCapital CalcularMoraDeUnCapital(double capitalAdeudado, double tasaInteresMoraAnual, DateTime fechaVencimiento, DateTime fechaPago)
+        {
+            Console.WriteLine($"MORA CAPITAL (Servicio): Capital={capitalAdeudado}, TasaMoraAnual%={tasaInteresMoraAnual}, Venc={fechaVencimiento.ToShortDateString()}, Pago={fechaPago.ToShortDateString()}");
+
+            if (capitalAdeudado <= 0)
+            {
+                return new ResultadoMoraCapital { DiasDeAtraso = 0, InteresesMoratorios = 0, TotalAPagar = capitalAdeudado };
+            }
+
+            if (fechaPago <= fechaVencimiento) // No hay mora si se paga en o antes de la fecha de vencimiento
+            {
+                return new ResultadoMoraCapital { DiasDeAtraso = 0, InteresesMoratorios = 0, TotalAPagar = capitalAdeudado };
+            }
+
+            TimeSpan diferencia = fechaPago.Subtract(fechaVencimiento);
+            int diasDeAtraso = diferencia.Days;
+
+            // La lógica original parece usar interés simple para la mora:
+            // (Capital * TasaMoraAnual * DiasAtraso) / 36500 (si la tasa es %)
+            // O (Capital * (TasaMoraAnual/100) * DiasAtraso) / 365
+            double tasaMoraDiaria = (tasaInteresMoraAnual / 100.0) / 365.0; // Tasa diaria simple
+            double interesesMoratorios = capitalAdeudado * tasaMoraDiaria * diasDeAtraso;
+            double totalAPagar = capitalAdeudado + interesesMoratorios;
+
+            return new ResultadoMoraCapital
+            {
+                DiasDeAtraso = diasDeAtraso,
+                InteresesMoratorios = interesesMoratorios,
+                TotalAPagar = totalAPagar
+            };
+        }
+
+        public double CalcularImporteCancelacionAnticipada(double tasaInteresMensualPorcentaje, int numeroTotalCuotas, double montoDeCadaCuota, int cuotasYaPagas)
+        {
+            Console.WriteLine($"CANCELACIÓN ANTICIPADA (Servicio): TasaMensual%={tasaInteresMensualPorcentaje}, TotalCuotas={numeroTotalCuotas}, MontoCuota={montoDeCadaCuota}, CuotasPagas={cuotasYaPagas}");
+
+            if (montoDeCadaCuota <= 0 || tasaInteresMensualPorcentaje < 0 || numeroTotalCuotas <= 0 || cuotasYaPagas < 0 || cuotasYaPagas >= numeroTotalCuotas)
+            {
+                // Si ya se pagaron todas o más cuotas, o los datos son inválidos, el importe a pagar es 0 o un error.
+                // Devolver 0 si ya está pago, o podrías manejar un error/NaN para otros casos inválidos.
+                if (cuotasYaPagas >= numeroTotalCuotas && montoDeCadaCuota > 0) return 0.0;
+                // Para otros datos inválidos, podría ser mejor indicar un error o devolver NaN.
+                // Por simplicidad para el mock, si los datos no tienen sentido, devolvemos 0.
+                return 0.0;
+            }
+
+            double tasaInteresMensual = tasaInteresMensualPorcentaje / 100.0;
+            int cuotasRestantes = numeroTotalCuotas - cuotasYaPagas;
+
+            if (tasaInteresMensual == 0) // Si la tasa es 0%
+            {
+                return montoDeCadaCuota * cuotasRestantes;
+            }
+
+            // Fórmula del valor presente de una anualidad:
+            // VA = C * [ (1 - (1 + i)^-n) / i ]
+            // Donde C = Monto de cada cuota, i = tasa de interés por período, n = número de períodos restantes.
+            // La lógica original usaba:
+            // double X = (+T + 1); // T era tasaInteresMensualPorcentaje / 100
+            // double Y = -(Convert.ToDouble(TXTCUOTAS.Text) - Convert.ToDouble(TXTCUOTASYAPAGAS.Text)); // -cuotasRestantes
+            // T1 = Math.Pow(X, Y);
+            // T1 = 1 - T1;
+            // T2 = T1 / +(T);
+            // TXTIMPORTEAPAGAR.Text = (T2 * Convert.ToDouble(TXTMONTODECADACUOTA.Text)).ToString("N");
+
+            // Replicando la fórmula:
+            double factor1 = Math.Pow(1.0 + tasaInteresMensual, -cuotasRestantes);
+            double valorPresenteFactor = (1.0 - factor1) / tasaInteresMensual;
+            double importeAPagar = valorPresenteFactor * montoDeCadaCuota;
+
+            return importeAPagar;
+        }
         public class ResultadoDescuentoDocumento
         {
             public double Descuento { get; set; }
