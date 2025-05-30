@@ -1,0 +1,75 @@
+﻿@page
+@model Kuotasmig.Core.Pages.CancelacionAnticipadaModel
+@{
+    ViewData["Title"] = "Cancelación Anticipada de Cuotas";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Cálculo del importe a pagar para cancelar anticipadamente un préstamo de cuotas mensuales iguales de capital e interés.</p>
+<hr />
+
+<form method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label asp-for="Input.MontoDeCadaCuota"></label>
+                <input asp-for="Input.MontoDeCadaCuota" class="form-control" type="number" step="any" />
+                <span asp-validation-for="Input.MontoDeCadaCuota" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label asp-for="Input.TasaInteresMensual"></label>
+                <div class="input-group">
+                    <input asp-for="Input.TasaInteresMensual" class="form-control" type="number" step="any" />
+                    <span class="input-group-text">%</span>
+                </div>
+                <span asp-validation-for="Input.TasaInteresMensual" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label asp-for="Input.NumeroTotalCuotas"></label>
+                <input asp-for="Input.NumeroTotalCuotas" class="form-control" type="number" />
+                <span asp-validation-for="Input.NumeroTotalCuotas" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label asp-for="Input.CuotasYaPagas"></label>
+                <input asp-for="Input.CuotasYaPagas" class="form-control" type="number" />
+                <span asp-validation-for="Input.CuotasYaPagas" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <button type="submit" asp-page-handler="Calcular" class="btn btn-primary">Calcular Importe a Pagar</button>
+        <button type="submit" asp-page-handler="Limpiar" class="btn btn-secondary" formnovalidate>Limpiar</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ImporteAPagar))
+    {
+        <div class="alert alert-success mt-3">
+            <h4>Importe a Pagar para Cancelar ($): <strong>@Model.ImporteAPagar</strong></h4>
+        </div>
+    }
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
