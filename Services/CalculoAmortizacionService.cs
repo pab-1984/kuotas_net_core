@@ -10,6 +10,190 @@ namespace Kuotasmig.Core.Services
     public class CalculoAmortizacionService // Puedes renombrar esta clase a CalculoFinancieroService si prefieres más adelante
     {
         // Dentro de la clase CalculoAmortizacionService
+
+        public class CalculoCuotasUIYPesosGeneral
+        {
+            // Resultados para el cálculo individual
+            public string? TasaMensualEquivalente { get; set; }
+            public string? CapitalEnPesos { get; set; }
+            public string? CapitalEnUI { get; set; }
+            public string? CuotaCalculadaEnUI { get; set; }
+            public string? CuotaCalculadaEnPesos { get; set; }
+
+            // Tabla de resultados
+            public List<ResultadoCuotaUIYPesos> TablaResultados { get; set; } = new List<ResultadoCuotaUIYPesos>();
+            public bool Error { get; set; } = false;
+            public string? MensajeError { get; set; }
+        }
+
+        public CalculoCuotasUIYPesosGeneral CalcularCuotasUIYPesosCompleto(
+            double capitalDolares, 
+            double tasaAnualNominal, 
+            int cantidadMesesIndividual, // Para el cálculo de la cuota individual
+            double cotizacionDolarAPesos, 
+            double cotizacionUIApesos)
+        {
+            Console.WriteLine($"CALCULAR CUOTAS UI Y PESOS (Servicio): CapUSD={capitalDolares}, TNA%={tasaAnualNominal}, MesesInd={cantidadMesesIndividual}, CotUSD={cotizacionDolarAPesos}, CotUI={cotizacionUIApesos}");
+
+            var resultadoGeneral = new CalculoCuotasUIYPesosGeneral();
+
+            if (capitalDolares <= 0 || tasaAnualNominal < 0 || cantidadMesesIndividual <= 0 || 
+                cotizacionDolarAPesos <= 0 || cotizacionUIApesos <= 0)
+            {
+                resultadoGeneral.Error = true;
+                resultadoGeneral.MensajeError = "Todos los valores de capital, tasas y cotizaciones deben ser positivos (tasa puede ser cero).";
+                return resultadoGeneral;
+            }
+
+            try
+            {
+                // 1. Calcular Tasa Mensual Efectiva
+                double tasaMensualEfectiva;
+                if (tasaAnualNominal == 0)
+                {
+                    tasaMensualEfectiva = 0;
+                    resultadoGeneral.TasaMensualEquivalente = "0.0000000%";
+                }
+                else
+                {
+                    // Asumiendo que la tasaAnualNominal es una TNA con capitalización mensual.
+                    // TEM = (1 + TNA/1200)^1 -1 = TNA/1200 (si es TNA simple)
+                    // O si es TEA a TEM: TEM = (1 + TEA/100)^(1/12) - 1
+                    // La lógica original del ASPX:
+                    // interesanual2 = Math.Pow(1.0 + (TTT / 100), ((double)1 / (double)360)); COEFDIARIO
+                    // COEFEQUIV = Math.Pow(COEFDIARIO, 30);
+                    // TXTTASAMENSUAL.Text = ((COEFEQUIV - 1) * 100).ToString();
+                    // Esto es ( (1 + TNA/100)^(1/360) )^30 - 1 = (1 + TNA/100)^(30/360) - 1 = (1 + TNA/100)^(1/12) - 1
+                    tasaMensualEfectiva = Math.Pow(1.0 + (tasaAnualNominal / 100.0), 1.0 / 12.0) - 1.0;
+                    resultadoGeneral.TasaMensualEquivalente = (tasaMensualEfectiva * 100.0).ToString("N7", CultureInfo.InvariantCulture) + "%";
+                }
+
+                // 2. Conversiones de Capital
+                double capitalEnPesos = capitalDolares * cotizacionDolarAPesos;
+                double capitalEnUI = capitalEnPesos / cotizacionUIApesos;
+                resultadoGeneral.CapitalEnPesos = capitalEnPesos.ToString("N2", CultureInfo.InvariantCulture);
+                resultadoGeneral.CapitalEnUI = capitalEnUI.ToString("N2", CultureInfo.InvariantCulture);
+
+                // 3. Calcular Cuota Individual en UI y Pesos
+                double cuotaIndividualEnUI;
+                if (Math.Abs(tasaMensualEfectiva) < 0.0000000001) // Tasa cero
+                {
+                    cuotaIndividualEnUI = capitalEnUI / cantidadMesesIndividual;
+                }
+                else
+                {
+                    double factorAnualidadInd = (tasaMensualEfectiva * Math.Pow(1.0 + tasaMensualEfectiva, cantidadMesesIndividual)) /
+                                            (Math.Pow(1.0 + tasaMensualEfectiva, cantidadMesesIndividual) - 1.0);
+                    cuotaIndividualEnUI = capitalEnUI * factorAnualidadInd;
+                }
+                resultadoGeneral.CuotaCalculadaEnUI = cuotaIndividualEnUI.ToString("N2", CultureInfo.InvariantCulture);
+                resultadoGeneral.CuotaCalculadaEnPesos = (cuotaIndividualEnUI * cotizacionUIApesos).ToString("N2", CultureInfo.InvariantCulture);
+
+                // 4. Generar Tabla de Cuotas para diferentes plazos
+                for (int mesesTabla = 6; mesesTabla <= 240; mesesTabla += 6)
+                {
+                    double cuotaTablaEnUI;
+                    if (Math.Abs(tasaMensualEfectiva) < 0.0000000001) // Tasa cero
+                    {
+                        cuotaTablaEnUI = capitalEnUI / mesesTabla;
+                    }
+                    else
+                    {
+                        double factorAnualidadTabla = (tasaMensualEfectiva * Math.Pow(1.0 + tasaMensualEfectiva, mesesTabla)) /
+                                                    (Math.Pow(1.0 + tasaMensualEfectiva, mesesTabla) - 1.0);
+                        cuotaTablaEnUI = capitalEnUI * factorAnualidadTabla;
+                    }
+
+                    double cuotaTablaEnPesos = cuotaTablaEnUI * cotizacionUIApesos;
+
+                    resultadoGeneral.TablaResultados.Add(new ResultadoCuotaUIYPesos
+                    {
+                        CapitalEnDolares = capitalDolares, // El capital base es el mismo
+                        Meses = mesesTabla,
+                        CuotaEnUI = cuotaTablaEnUI.ToString("N2", CultureInfo.InvariantCulture),
+                        CuotaEnPesos = cuotaTablaEnPesos.ToString("N2", CultureInfo.InvariantCulture)
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                resultadoGeneral.Error = true;
+                resultadoGeneral.MensajeError = "Error en el cálculo: " + ex.Message;
+            }
+            return resultadoGeneral;
+        }
+
+        public double CalcularTasaEfectivaAnual(double tasaNominalAnual, int periodosCapitalizacionPorAño = 12)
+        {
+            Console.WriteLine($"CALCULAR TEA (Servicio): TNA%={tasaNominalAnual}, PeríodosCap={periodosCapitalizacionPorAño}");
+            if (tasaNominalAnual < -100 * periodosCapitalizacionPorAño) // Límite aproximado para evitar errores
+            {
+                return -100.0; // O manejar error
+            }
+            double tasaPeriodica = (tasaNominalAnual / 100.0) / periodosCapitalizacionPorAño;
+            double tea = (Math.Pow(1.0 + tasaPeriodica, periodosCapitalizacionPorAño) - 1.0) * 100.0;
+            return tea;
+        }
+        public List<ResultadoCalculoCuota> GenerarTablaDeCuotas(double capitalInicial, double tasaAnualNominal)
+        {
+            Console.WriteLine($"GENERAR TABLA DE CUOTAS (Servicio): Capital={capitalInicial}, TasaAnual%={tasaAnualNominal}");
+            var listaResultados = new List<ResultadoCalculoCuota>();
+
+            if (capitalInicial <= 0 || tasaAnualNominal < 0)
+            {
+                // Podríamos añadir un resultado de error o simplemente devolver una lista vacía
+                // Por ahora, devolvemos una lista vacía si las entradas base son inválidas.
+                return listaResultados;
+            }
+
+            try
+            {
+                double tasaMensualEfectiva;
+                if (tasaAnualNominal == 0)
+                {
+                    tasaMensualEfectiva = 0;
+                }
+                else
+                {
+                    tasaMensualEfectiva = Math.Pow(1.0 + (tasaAnualNominal / 100.0), 1.0 / 12.0) - 1.0;
+                }
+
+                for (int cantidadMeses = 6; cantidadMeses <= 240; cantidadMeses += 6)
+                {
+                    double montoCuota;
+                    if (Math.Abs(tasaMensualEfectiva) < 0.0000000001) // Tasa cero o muy cercana
+                    {
+                        montoCuota = Math.Round(capitalInicial / cantidadMeses, 2);
+                    }
+                    else
+                    {
+                        double factorAnualidad = (tasaMensualEfectiva * Math.Pow(1.0 + tasaMensualEfectiva, cantidadMeses)) /
+                                                (Math.Pow(1.0 + tasaMensualEfectiva, cantidadMeses) - 1.0);
+                        double cuotaCalculadaPrecisa = capitalInicial * factorAnualidad;
+                        montoCuota = Math.Round(cuotaCalculadaPrecisa, 2);
+                    }
+                    listaResultados.Add(new ResultadoCalculoCuota
+                    {
+                        CapitalSolicitado = capitalInicial,
+                        CantidadMeses = cantidadMeses,
+                        MontoCuota = montoCuota
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de error si es necesario, quizás añadiendo un item de error a la lista
+                // o lanzando la excepción para que el PageModel la maneje.
+                Console.WriteLine($"Error en GenerarTablaDeCuotas: {ex.Message}");
+                // Podrías añadir un resultado con error:
+                // listaResultados.Add(new ResultadoCalculoCuota { Error = true, MensajeError = "Error en cálculo." });
+            }
+            return listaResultados;
+        }
+
+        // El método CalcularCuotaFijaMensual que creamos antes también es útil
+        // si solo quieres calcular una cuota individual, como lo hace el botón "Calcular Cuota"
+        // antes de generar la tabla completa.
         public class ResultadoCalculoCuota
         {
             public double CapitalSolicitado { get; set; }

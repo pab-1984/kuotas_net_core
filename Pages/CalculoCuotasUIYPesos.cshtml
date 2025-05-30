@@ -1,0 +1,106 @@
+﻿@page "/CalculoCuotasUIYPesos"
+@model Kuotasmig.Core.Pages.CalculoCuotasUIYPesosModel
+@{
+    ViewData["Title"] = "Cálculo de Cuotas Iguales (UI y Pesos)";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Cálculo de cuotas iguales y mensuales de capital e interés, en UI y su equivalente en Pesos.</p>
+<hr />
+
+<form method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @if (Model.Resultado != null && Model.Resultado.Error)
+    {
+        <div class="alert alert-danger">@Model.Resultado.MensajeError</div>
+    }
+
+    <div class="row">
+        <div class="col-md-4 form-group mb-3">
+            <label asp-for="Input.CapitalDolares"></label>
+            <input asp-for="Input.CapitalDolares" class="form-control" type="number" step="any" />
+            <span asp-validation-for="Input.CapitalDolares" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 form-group mb-3">
+            <label asp-for="Input.TasaInteresAnual"></label>
+            <div class="input-group">
+                <input asp-for="Input.TasaInteresAnual" class="form-control" type="number" step="any" />
+                <span class="input-group-text">%</span>
+            </div>
+            <span asp-validation-for="Input.TasaInteresAnual" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 form-group mb-3">
+            <label asp-for="Input.CantidadMesesIndividual"></label>
+            <input asp-for="Input.CantidadMesesIndividual" class="form-control" type="number" />
+            <span asp-validation-for="Input.CantidadMesesIndividual" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 form-group mb-3">
+            <label asp-for="Input.CotizacionDolarAPesos"></label>
+            <input asp-for="Input.CotizacionDolarAPesos" class="form-control" type="number" step="any" />
+            <span asp-validation-for="Input.CotizacionDolarAPesos" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 form-group mb-3">
+            <label asp-for="Input.CotizacionUIApesos"></label>
+            <input asp-for="Input.CotizacionUIApesos" class="form-control" type="number" step="any" />
+            <span asp-validation-for="Input.CotizacionUIApesos" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <button type="submit" asp-page-handler="Calcular" class="btn btn-primary">Calcular</button>
+        <button type="submit" asp-page-handler="Limpiar" class="btn btn-secondary" formnovalidate>Limpiar</button>
+    </div>
+
+    @if (Model.Resultado != null && !Model.Resultado.Error)
+    {
+        <div class="row mt-4">
+            <div class="col-md-3"><div class="alert alert-secondary">Tasa Mensual Eq.: <br /><strong>@Model.Resultado.TasaMensualEquivalente</strong></div></div>
+            <div class="col-md-3"><div class="alert alert-secondary">Capital en Pesos ($): <br /><strong>@Model.Resultado.CapitalEnPesos</strong></div></div>
+            <div class="col-md-3"><div class="alert alert-secondary">Capital en UI: <br /><strong>@Model.Resultado.CapitalEnUI</strong></div></div>
+        </div>
+        <div class="row">
+             <div class="col-md-6"><div class="alert alert-info">Cuota en UI (para @Model.Input.CantidadMesesIndividual meses): <br /><strong>@Model.Resultado.CuotaCalculadaEnUI</strong></div></div>
+             <div class="col-md-6"><div class="alert alert-info">Cuota en Pesos ($) (para @Model.Input.CantidadMesesIndividual meses): <br /><strong>@Model.Resultado.CuotaCalculadaEnPesos</strong></div></div>
+        </div>
+
+        @if (Model.Resultado.TablaResultados != null && Model.Resultado.TablaResultados.Any())
+        {
+            <h3 class="mt-4">Tabla de Cuotas para Distintos Plazos</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Capital en U$S</th>
+                            <th>Meses</th>
+                            <th>Cuota en U.I.</th>
+                            <th>Cuota en Pesos ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Resultado.TablaResultados)
+                        {
+                            <tr>
+                                <td>@item.CapitalEnDolares.ToString("N2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                                <td>@item.Meses</td>
+                                <td>@item.CuotaEnUI</td>
+                                <td>@item.CuotaEnPesos</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @* Botón de exportación pendiente *@
+        }
+    }
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
