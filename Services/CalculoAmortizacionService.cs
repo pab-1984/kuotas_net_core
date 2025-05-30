@@ -9,7 +9,68 @@ namespace Kuotasmig.Core.Services
 {
     public class CalculoAmortizacionService // Puedes renombrar esta clase a CalculoFinancieroService si prefieres más adelante
     {
-        // Dentro de la clase CalculoAmortizacionService (o tu servicio financiero)
+        // Dentro de la clase CalculoAmortizacionService
+        public class ResultadoCalculoCuota
+        {
+            public double CapitalSolicitado { get; set; }
+            public int CantidadMeses { get; set; }
+            public double MontoCuota { get; set; }
+            public bool Error { get; set; } = false;
+            public string? MensajeError { get; set; }
+        }
+
+        public ResultadoCalculoCuota CalcularCuotaFijaMensual(double capital, double tasaAnualNominal, int cantidadMeses)
+        {
+            Console.WriteLine($"CALCULAR CUOTA FIJA (Servicio): Capital={capital}, TasaAnual%={tasaAnualNominal}, Meses={cantidadMeses}");
+            var resultado = new ResultadoCalculoCuota
+            {
+                CapitalSolicitado = capital,
+                CantidadMeses = cantidadMeses
+            };
+
+            if (capital <= 0 || tasaAnualNominal < 0 || cantidadMeses <= 0)
+            {
+                resultado.Error = true;
+                resultado.MensajeError = "Capital y cantidad de meses deben ser mayores a cero. La tasa debe ser mayor o igual a cero.";
+                if (tasaAnualNominal < 0 && capital > 0 && cantidadMeses > 0)
+                {
+                    resultado.MensajeError = "La tasa anual nominal no puede ser negativa.";
+                }
+                return resultado;
+            }
+
+            try
+            {
+                double tasaMensualEfectiva;
+                if (tasaAnualNominal == 0)
+                {
+                    tasaMensualEfectiva = 0;
+                }
+                else
+                {
+                    tasaMensualEfectiva = Math.Pow(1.0 + (tasaAnualNominal / 100.0), 1.0 / 12.0) - 1.0;
+                }
+
+
+                if (Math.Abs(tasaMensualEfectiva) < 0.0000000001) // Tasa cero o muy cercana
+                {
+                    resultado.MontoCuota = Math.Round(capital / cantidadMeses, 2);
+                }
+                else
+                {
+                    double factorAnualidad = (tasaMensualEfectiva * Math.Pow(1.0 + tasaMensualEfectiva, cantidadMeses)) /
+                                            (Math.Pow(1.0 + tasaMensualEfectiva, cantidadMeses) - 1.0);
+                    double cuotaCalculadaPrecisa = capital * factorAnualidad;
+                    resultado.MontoCuota = Math.Round(cuotaCalculadaPrecisa, 2);
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado.Error = true;
+                resultado.MensajeError = "Error en el cálculo de la cuota: " + ex.Message;
+            }
+            return resultado;
+        }
         public class ResultadoMoraVariasCuotasTodasVencidas
         {
             public double ImporteAPagar { get; set; }
