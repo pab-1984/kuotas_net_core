@@ -1,0 +1,130 @@
+﻿@page "/LiquidacionMoraDistintosMontos"
+@model Kuotasmig.Core.Pages.LiquidacionMoraDistintosMontosModel
+@{
+    ViewData["Title"] = "Liquidación de Mora (Distintos Montos y Fechas)";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @if (Model.Resultado != null && Model.Resultado.Error) {
+        <div class="alert alert-danger">@Model.Resultado.MensajeError</div>
+    }
+    
+    @* Entradas Globales *@
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <label asp-for="GlobalInputs.FechaActualizacion"></label>
+            <input asp-for="GlobalInputs.FechaActualizacion" class="form-control" />
+            <span asp-validation-for="GlobalInputs.FechaActualizacion" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="GlobalInputs.TasaMoraAnual"></label>
+            <div class="input-group">
+                <input asp-for="GlobalInputs.TasaMoraAnual" class="form-control" type="number" step="any" />
+                <span class="input-group-text">%</span>
+            </div>
+             <button type="submit" class="btn btn-sm btn-outline-secondary mt-1" asp-page-handler="ActualizarTasasAnual">Calc. desde Anual</button>
+            <span asp-validation-for="GlobalInputs.TasaMoraAnual" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="GlobalInputs.TasaMoraMensual"></label>
+             <div class="input-group">
+                <input asp-for="GlobalInputs.TasaMoraMensual" class="form-control" type="number" step="any" value="@Model.GlobalInputs.TasaMoraMensual" />
+                <span class="input-group-text">%</span>
+            </div>
+            <button type="submit" class="btn btn-sm btn-outline-secondary mt-1" asp-page-handler="ActualizarTasasMensual">Calc. desde Mensual</button>
+            <span asp-validation-for="GlobalInputs.TasaMoraMensual" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="GlobalInputs.TasaMoraDiariaFactor"></label>
+            <input asp-for="GlobalInputs.TasaMoraDiariaFactor" class="form-control" type="text" readonly value="@Model.GlobalInputs.TasaMoraDiariaFactor?.ToString("N9")" />
+        </div>
+    </div>
+
+    <h4 class="mt-4">Items a Liquidar</h4>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 20%;">@Html.DisplayNameFor(m => m.Items[0].Concepto)</th>
+                    <th style="width: 15%;">@Html.DisplayNameFor(m => m.Items[0].Monto)</th>
+                    <th style="width: 15%;">@Html.DisplayNameFor(m => m.Items[0].FechaDesde)</th>
+                    <th style="width: 10%;">Días Atraso</th>
+                    <th style="width: 15%;">Monto Mora ($)</th>
+                    <th style="width: 15%;">Total con Mora ($)</th>
+                    <th style="width: 10%;">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Items.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" asp-for="Items[i].Id" />
+                            <input asp-for="Items[i].Concepto" class="form-control form-control-sm" />
+                            <span asp-validation-for="Items[i].Concepto" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="Items[i].Monto" class="form-control form-control-sm" type="number" step="any" />
+                            <span asp-validation-for="Items[i].Monto" class="text-danger"></span>
+                        </td>
+                        <td>
+                            <input asp-for="Items[i].FechaDesde" class="form-control form-control-sm" />
+                            <span asp-validation-for="Items[i].FechaDesde" class="text-danger"></span>
+                        </td>
+                        <td><input type="text" class="form-control form-control-sm" value="@Model.Items[i].DiasAtraso" readonly /></td>
+                        <td><input type="text" class="form-control form-control-sm" value="@Model.Items[i].MontoMora.ToString("N2")" readonly /></td>
+                        <td><input type="text" class="form-control form-control-sm" value="@Model.Items[i].TotalConMora.ToString("N2")" readonly /></td>
+                        <td>
+                            <button type="submit" asp-page-handler="QuitarFila" asp-route-itemId="@Model.Items[i].Id" class="btn btn-sm btn-danger" title="Quitar Fila">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <label asp-for="GlobalInputs.FilasAAgregar"></label>
+            <input asp-for="GlobalInputs.FilasAAgregar" class="form-control form-control-sm" type="number" />
+        </div>
+        <div class="col-md-3 align-self-end">
+             <button type="submit" asp-page-handler="AgregarFilas" class="btn btn-sm btn-info">Agregar Filas</button>
+        </div>
+    </div>
+    
+    <hr />
+    <div class="row mt-3">
+        <div class="col-md-9 text-end">
+            <strong>Subtotal Montos ($):</strong><br />
+            <strong>Subtotal Mora ($):</strong><br />
+            <strong class="h5">TOTAL GENERAL ($):</strong>
+        </div>
+        <div class="col-md-3 text-end">
+            @Model.SubtotalMontos.ToString("N2")<br />
+            @Model.SubtotalMora.ToString("N2")<br />
+            <strong class="h5">@Model.TotalGeneral.ToString("N2")</strong>
+        </div>
+    </div>
+
+    <div class="form-group mt-4 mb-3">
+        <button type="submit" asp-page-handler="CalcularTodo" class="btn btn-primary btn-lg">CALCULAR TODO</button>
+        <button type="submit" asp-page-handler="LimpiarTodo" class="btn btn-secondary btn-lg" formnovalidate>LIMPIAR TODO</button>
+        @* Botón de exportación pendiente *@
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

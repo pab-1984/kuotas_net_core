@@ -11,6 +11,146 @@ namespace Kuotasmig.Core.Services
     {
         // Dentro de la clase CalculoAmortizacionService
 
+        public class ResultadoItemMora
+        {
+            public int DiasAtraso { get; set; }
+            public double MontoMora { get; set; }
+            public double TotalConMora { get; set; }
+        }
+
+        public ResultadoItemMora CalcularMoraParaItem(double montoItem, DateTime fechaVencimientoItem, DateTime fechaActualizacion, double tasaMoraAnualPorcentaje)
+        {
+            Console.WriteLine($"CALCULAR MORA ITEM (Servicio): Monto={montoItem}, Vto={fechaVencimientoItem.ToShortDateString()}, Act={fechaActualizacion.ToShortDateString()}, TasaMora%={tasaMoraAnualPorcentaje}");
+
+            if (montoItem <= 0)
+            {
+                return new ResultadoItemMora { DiasAtraso = 0, MontoMora = 0, TotalConMora = montoItem };
+            }
+
+            if (fechaActualizacion <= fechaVencimientoItem)
+            {
+                TimeSpan diff = fechaActualizacion.Subtract(fechaVencimientoItem);
+                return new ResultadoItemMora { DiasAtraso = Math.Max(0, diff.Days), MontoMora = 0, TotalConMora = montoItem };
+            }
+
+            TimeSpan diferencia = fechaActualizacion.Subtract(fechaVencimientoItem);
+            int diasDeAtraso = diferencia.Days;
+
+            double tasaMoraDiariaEfectiva = 0;
+            if (tasaMoraAnualPorcentaje > 0)
+            {
+                tasaMoraDiariaEfectiva = Math.Pow(1.0 + (tasaMoraAnualPorcentaje / 100.0), 1.0 / 365.0) - 1.0;
+            }
+
+            double totalConMora = montoItem;
+            double montoMoraCalculada = 0;
+
+            if (diasDeAtraso > 0 && tasaMoraDiariaEfectiva > 0)
+            {
+                totalConMora = montoItem * Math.Pow(1.0 + tasaMoraDiariaEfectiva, diasDeAtraso);
+                montoMoraCalculada = totalConMora - montoItem;
+            }
+
+            return new ResultadoItemMora
+            {
+                DiasAtraso = diasDeAtraso,
+                MontoMora = montoMoraCalculada,
+                TotalConMora = totalConMora
+            };
+        }
+        public class ResultadoTablaMoraCuotas
+        {
+            public List<FilaMoraCuota> TablaMora { get; set; } = new List<FilaMoraCuota>();
+            public double SubtotalCuotas { get; set; }
+            public double SubtotalMora { get; set; }
+            public double TotalGeneral { get; set; }
+            public bool Error { get; set; } = false;
+            public string? MensajeError { get; set; }
+        }
+
+        public ResultadoTablaMoraCuotas GenerarTablaCalculoMoraCuotas(
+            double montoCadaCuota, 
+            int cantidadTotalCuotas, 
+            double tasaMoraAnualPorcentaje, 
+            DateTime fechaVencimientoPrimeraCuota, 
+            DateTime fechaActualizacion)
+        {
+            Console.WriteLine($"GENERAR TABLA MORA CUOTAS (Servicio): MontoC={montoCadaCuota}, NumCuotas={cantidadTotalCuotas}, TasaMoraAnual%={tasaMoraAnualPorcentaje}, Venc1={fechaVencimientoPrimeraCuota.ToShortDateString()}, FechAct={fechaActualizacion.ToShortDateString()}");
+
+            var resultado = new ResultadoTablaMoraCuotas();
+
+            if (montoCadaCuota <= 0 || cantidadTotalCuotas <= 0 || tasaMoraAnualPorcentaje < 0)
+            {
+                resultado.Error = true;
+                resultado.MensajeError = "Monto de cuota y cantidad deben ser positivos. Tasa de mora no puede ser negativa.";
+                return resultado;
+            }
+
+            try
+            {
+                // Tasa de mora diaria efectiva (a partir de la anual, asumiendo año 365 para mora)
+                // La lógica original parece compleja, simplificaremos a interés compuesto diario para la mora.
+                // Tasa Diaria = (1 + TasaMoraAnual / 100)^(1/365) - 1
+                double tasaMoraDiariaEfectiva = 0;
+                if (tasaMoraAnualPorcentaje > 0)
+                {
+                    tasaMoraDiariaEfectiva = Math.Pow(1.0 + (tasaMoraAnualPorcentaje / 100.0), 1.0 / 365.0) - 1.0;
+                }
+
+
+                DateTime fechaVencimientoCuotaActual = fechaVencimientoPrimeraCuota;
+
+                for (int i = 1; i <= cantidadTotalCuotas; i++)
+                {
+                    var fila = new FilaMoraCuota
+                    {
+                        NumeroCuota = i,
+                        FechaCuotaVencida = fechaVencimientoCuotaActual.ToShortDateString(),
+                        FechaActualizacion = fechaActualizacion.ToShortDateString(),
+                        MontoCuota = montoCadaCuota.ToString("N2", CultureInfo.InvariantCulture)
+                    };
+
+                    int diasAtraso = 0;
+                    double montoMoraCalculada = 0;
+                    double totalConMora = montoCadaCuota;
+
+                    if (fechaActualizacion > fechaVencimientoCuotaActual)
+                    {
+                        TimeSpan diferencia = fechaActualizacion.Subtract(fechaVencimientoCuotaActual);
+                        diasAtraso = diferencia.Days;
+                    }
+
+                    fila.DiasAtraso = diasAtraso;
+
+                    if (diasAtraso > 0 && tasaMoraDiariaEfectiva > 0)
+                    {
+                        // Aplicar interés compuesto diario sobre el monto de la cuota por los días de atraso
+                        // MontoFinal = Capital * (1 + i_diaria)^n_dias
+                        totalConMora = montoCadaCuota * Math.Pow(1.0 + tasaMoraDiariaEfectiva, diasAtraso);
+                        montoMoraCalculada = totalConMora - montoCadaCuota;
+                    }
+
+                    fila.MontoMora = montoMoraCalculada.ToString("N2", CultureInfo.InvariantCulture);
+                    fila.TotalConMora = totalConMora.ToString("N2", CultureInfo.InvariantCulture);
+
+                    resultado.TablaMora.Add(fila);
+
+                    resultado.SubtotalCuotas += montoCadaCuota;
+                    resultado.SubtotalMora += montoMoraCalculada;
+                    resultado.TotalGeneral += totalConMora;
+
+                    // Siguiente fecha de vencimiento
+                    fechaVencimientoCuotaActual = fechaVencimientoCuotaActual.AddMonths(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                resultado.Error = true;
+                resultado.MensajeError = "Error al generar la tabla de mora: " + ex.Message;
+            }
+            return resultado;
+        }
+
         public class CalculoCuotasUIYPesosGeneral
         {
             // Resultados para el cálculo individual
