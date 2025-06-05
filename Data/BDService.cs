@@ -1,9 +1,9 @@
 // Kuotasmig.Core/Data/BDService.cs
-using Microsoft.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace Kuotasmig.Core.Data // Asegúrate que el namespace coincida con tu estructura
+namespace Kuotasmig.Core.Data
 {
     public class BDService
     {
@@ -11,16 +11,17 @@ namespace Kuotasmig.Core.Data // Asegúrate que el namespace coincida con tu est
 
         public BDService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("P2015ConnectionString")!;
+            _connectionString = configuration.GetConnectionString("P2015ConnectionString");
             if (string.IsNullOrEmpty(_connectionString))
             {
-                throw new InvalidOperationException("La cadena de conexión 'P2015ConnectionString' no se encontró o está vacía en la configuración.");
+                throw new InvalidOperationException("La cadena de conexión 'P2015ConnectionString' no se encontró.");
             }
         }
 
-        public SqlConnection ObtenerConexion()
+        // Cambiar tipo de retorno
+        public MySqlConnection ObtenerConexion()
         {
-            return new SqlConnection(_connectionString);
+            return new MySqlConnection(_connectionString); // <--- CAMBIO AQUÍ
         }
     }
 }
