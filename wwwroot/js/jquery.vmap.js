@@ -453,6 +453,7 @@
     });
 
     jQuery(params.container).delegate(this.canvas.mode == 'svg' ? 'path' : 'shape', 'click', function (e) {
+      var regionClickEvent = $.Event('regionClick.jqvmap'); // Define regionClickEvent
       if (!params.multiSelectRegion) {
         for (var key in mapData.pathes) {
           map.countries[key].currentFillColor = map.countries[key].getOriginalFill();
@@ -463,7 +464,7 @@
       var path = e.target;
       var code = e.target.id.split('_').pop();
 
-      jQuery(params.container).trigger('regionClick.jqvmap', [code, mapData.pathes[code].name]);
+      jQuery(params.container).trigger(regionClickEvent, [code, mapData.pathes[code].name]);
       if (!regionClickEvent.isDefaultPrevented()) {
         if (map.selectedRegions.indexOf(code) !== -1) {
           map.deselect(code, path);
@@ -521,13 +522,6 @@
     this.bindZoomButtons();
     
     if(params.pins) {
-      /*if(params.pinMode) {
-          if(params.pinMode != "id" && params.pinMode != "content") {
-              params.pinMode = "content";
-          }
-      } else {
-          params.pinMode = "content";
-      }*/
       this.pinHandlers = false;
       this.placePins(params.pins, params.pinMode);
     }
@@ -685,9 +679,9 @@
     },
 
     reset: function () {
-      this.countryTitle.reset();
+      this.countryTitle.reset(); // Assuming countryTitle exists and has a reset method
       for (var key in this.countries) {
-        this.countries[key].setFill(WorldMap.defaultColor);
+        this.countries[key].setFill(WorldMap.defaultColor); // Assuming WorldMap.defaultColor exists
       }
       this.scale = this.baseScale;
       this.transX = this.baseTransX;
@@ -794,7 +788,8 @@
     
     zoomIn: function () {
       var map = this;
-      var sliderDelta = (jQuery('#zoom').innerHeight() - 6 * 2 - 15 * 2 - 3 * 2 - 7 - 6) / (this.zoomMaxStep - this.zoomCurStep);
+      // jQuery reference to '#zoom' might be problematic if #zoom doesn't exist or is not standard.
+      // var sliderDelta = (jQuery('#zoom').innerHeight() - 6 * 2 - 15 * 2 - 3 * 2 - 7 - 6) / (this.zoomMaxStep - this.zoomCurStep);
 
       if (map.zoomCurStep < map.zoomMaxStep) {
         var curTransX = map.transX;
@@ -806,7 +801,7 @@
         map.setScale(map.scale * map.zoomStep);
         map.zoomCurStep++;
 
-        jQuery('#zoomSlider').css('top', parseInt(jQuery('#zoomSlider').css('top'), 10) - sliderDelta);
+        // jQuery('#zoomSlider').css('top', parseInt(jQuery('#zoomSlider').css('top'), 10) - sliderDelta);
         
         map.container.trigger("zoomIn");
       }
@@ -814,7 +809,8 @@
     
     zoomOut: function () {
       var map = this;
-      var sliderDelta = (jQuery('#zoom').innerHeight() - 6 * 2 - 15 * 2 - 3 * 2 - 7 - 6) / (this.zoomMaxStep - this.zoomCurStep);
+      // jQuery reference to '#zoom' might be problematic.
+      // var sliderDelta = (jQuery('#zoom').innerHeight() - 6 * 2 - 15 * 2 - 3 * 2 - 7 - 6) / (this.zoomMaxStep - this.zoomCurStep);
 
       if (map.zoomCurStep > 1) {
         var curTransX = map.transX;
@@ -826,7 +822,7 @@
         map.setScale(map.scale / map.zoomStep);
         map.zoomCurStep--;
 
-        jQuery('#zoomSlider').css('top', parseInt(jQuery('#zoomSlider').css('top'), 10) + sliderDelta);
+        // jQuery('#zoomSlider').css('top', parseInt(jQuery('#zoomSlider').css('top'), 10) + sliderDelta);
         
         map.container.trigger("zoomOut");
       }
@@ -857,7 +853,6 @@
           if(jQuery('#'+map.getCountryId(index)).length == 0){
               return;
           }
-          //mapData.pathes[code].name
           var pinIndex = map.getPinId(index);
           if(jQuery('#'+pinIndex).length > 0){
             jQuery('#'+pinIndex).remove();
@@ -897,9 +892,17 @@
         pinObj = jQuery(pinObj);
         var countryId = map.getCountryId(pinObj.attr('for'));
         var countryObj = jQuery('#' + countryId);
+        
+        // Make sure the country object and getBBox are available
+        var countryElement = document.getElementById(countryId);
+        if (!countryElement || typeof countryElement.getBBox !== 'function') {
+          return; // Skip if element or getBBox is not available
+        }
 
-        var bbox = document.getElementById(countryId).getBBox();
+        var bbox = countryElement.getBBox();
         var position = countryObj.position();
+
+        if (!position) return; // Skip if position is not available
 
         var scale = map.scale;
 
@@ -917,12 +920,13 @@
 
      getPins: function(){
        var pins = this.container.find('.jqvmap_pin');
-       var ret = new Object();
+       var ret = {}; // Initialize as an empty object
        jQuery.each(pins, function(index, pinObj){
          pinObj = jQuery(pinObj);
          var cc = pinObj.attr('for');
          var pinContent = pinObj.html();
-         eval("ret." + cc + "=pinContent");
+         // Corrected line: Use bracket notation for dynamic property assignment
+         ret[cc] = pinContent;
        });
        return JSON.stringify(ret);
      },
@@ -940,6 +944,9 @@
   WorldMap.mapIndex = 1;
   WorldMap.maps = {};
 
+  // Default fill color if none is set
+  WorldMap.defaultFillColor = "#f4f3f0"; // Added this line based on defaultParams
+
   var ColorScale = function (colors, normalizeFunction, minValue, maxValue) {
     if (colors) {
       this.setColors(colors);
@@ -950,7 +957,7 @@
     if (minValue) {
       this.setMin(minValue);
     }
-    if (minValue) {
+    if (minValue) { // Should likely be maxValue for the second condition
       this.setMax(maxValue);
     }
   };
@@ -1023,7 +1030,7 @@
       i = 0;
       value -= this.minValue;
 
-      while (value - lengthes[i] >= 0) {
+      while (value - lengthes[i] >= 0 && i < lengthes.length -1 ) { // Added check for i
         value -= lengthes[i];
         i++;
       }

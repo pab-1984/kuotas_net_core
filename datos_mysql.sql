@@ -1,0 +1,20 @@
+-- Asegúrate de estar en la base de datos correcta
+USE p2015;
+
+-- Eliminar SET IDENTITY_INSERT ACREEDORES ON
+INSERT INTO `ACREEDORES` (`ID`, `NOMBRES`, `APELLIDOS`, `DOCUMENTO`, `DIRECCION`, `TELFIJO`, `TELCELULAR`) VALUES (4, 'Gabriel', 'Gadea', 25004132, 'k', 'k', '99.534222');
+INSERT INTO `ACREEDORES` (`ID`, `NOMBRES`, `APELLIDOS`, `DOCUMENTO`, `DIRECCION`, `TELFIJO`, `TELCELULAR`) VALUES (5, 'Silvia', 'Herrera', 12321783, 'k', 'k', '99603265');
+-- Eliminar SET IDENTITY_INSERT ACREEDORES OFF
+
+-- Eliminar SET IDENTITY_INSERT calculadora ON
+INSERT INTO `calculadora` (`id`, `texto`) VALUES (1, '1,1*12=13,20\n0+2=2,00\n89+23=112,00\n78+56=134,00\n78788=0,00\n6700%1,1=73,70\n12+1=13,00\n123*12=1.476,00\n4+0=4,00\n78+9=87,00\n20*56=1.120,00\n185*1,5=277,50\n12=0,00\n15%15=2,25\n1285*34=43.690,00\n12-5=7,00\n120=0,00\n120=0,00\n120=0,00\n12/2=6,00\n15%250=37,50\n80+9=89,00\n90+5=95,00\n90=0,00\n160=0,00\n150=0,00\n150=0,00\n12*22=264,00\n100/5=20,00\n125*4=500,00\n125*2=250,00/n12+5=17,00/n');
+-- Eliminar SET IDENTITY_INSERT calculadora OFF
+
+-- Eliminar SET IDENTITY_INSERT CLIENTES ON
+INSERT INTO `CLIENTES` (`IDCLIENTE`, `NOMBRES`, `DIRECCION`, `TELFIJO`, `TELCELULAR`, `EMAIL`) VALUES (6, 'BRAGA, Florencia - BRAGA, Bruno - ( U.I. ) (Tort)', '', '', '', '');
+-- ... (continúa con todos tus INSERTs para CLIENTES, CUOTAS, etc., ajustando el nombre de la tabla y eliminando los SET IDENTITY_INSERT) ...
+-- Por ejemplo, para CUOTAS:
+-- Eliminar SET IDENTITY_INSERT CUOTAS ON
+INSERT INTO `CUOTAS` (`ID`, `IDCLIENTE`, `CAPITAL`, `OPERACION`, `NUMERO`, `MONTO`, `PAGO`, `VENCE`, `MONEDA`, `TIPOOPERACION`, `TIPODECUOTAS`, `ESTADO`, `NUMERODEPAGO`) VALUES (49597, 2189, 35500, 2330, 44, 673, 0, '2028-09-22 00:00:00', 'U$S', 'Préstamo hipotecario', 'Cuota de capital e interés', 'PENDIENTE', 0);
+-- ... y así sucesivamente ...
+-- Eliminar SET IDENTITY_INSERT CUOTAS OFF

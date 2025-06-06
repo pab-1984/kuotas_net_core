@@ -1,0 +1,18 @@
+steps:
+# Paso 1: Construir la imagen Docker
+# Usamos el constructor de Docker de Cloud Build (gcr.io/cloud-builders/docker)
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+    'build',
+    '--tag=us-central1-docker.pkg.dev/kuotas/kuotas/kuotasmigapp:latest', # Asegúrate que 'kuotas' sea tu REPOSITORY_NAME si es diferente
+    '.'
+  ]
+
+# Especificar las imágenes que se van a subir a Artifact Registry
+# Esto es importante para que Cloud Build las almacene correctamente después de la compilación.
+images:
+- 'us-central1-docker.pkg.dev/kuotas/kuotas/kuotasmigapp:latest' # Asegúrate que 'kuotas' sea tu REPOSITORY_NAME si es diferente
+
+# Opciones (opcional, puedes omitir esta sección si no la necesitas):
+# options:
+#   logging: CLOUD_LOGGING_ONLY

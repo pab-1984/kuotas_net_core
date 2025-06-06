@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Linq;
 
 namespace Kuotasmig.Core.Pages
 {
@@ -24,7 +26,6 @@ namespace Kuotasmig.Core.Pages
         public string? CuotaCalculada { get; set; }
         public string? MensajeError { get; set; }
 
-
         public class InputModel
         {
             [Required(ErrorMessage = "El capital es obligatorio.")]
@@ -33,9 +34,9 @@ namespace Kuotasmig.Core.Pages
             public double? Capital { get; set; }
 
             [Required(ErrorMessage = "La tasa anual es obligatoria.")]
-            [Range(0.000001, double.MaxValue, ErrorMessage = "La tasa debe ser mayor a cero.")] // No puede ser 0 exacto para la fórmula estándar
+            [Range(0.000001, double.MaxValue, ErrorMessage = "La tasa debe ser mayor a cero.")]
             [Display(Name = "Tasa de Interés Anual (%)")]
-            public double? TasaAnual { get; set; }
+            public double? TasaAnual { get; set; } // ***** VUELVE A SER double? *****
 
             [Required(ErrorMessage = "La cantidad de cuotas es obligatoria.")]
             [Range(1, int.MaxValue, ErrorMessage = "La cantidad de cuotas debe ser al menos 1.")]
@@ -45,7 +46,6 @@ namespace Kuotasmig.Core.Pages
 
         public void OnGet()
         {
-            // Lógica para cuando la página se carga por GET, si es necesaria
         }
 
         public IActionResult OnPostCalcular()
@@ -55,10 +55,13 @@ namespace Kuotasmig.Core.Pages
                 return Page();
             }
 
+            // El model binder, con la nueva configuración de Program.cs, debería haber parseado
+            // correctamente el valor si venía con un punto. El JS en la vista asegura esto.
+            // Por lo tanto, podemos usar .Value de forma segura después de la validación.
             var resultado = _calculoService.GenerarPlanilla(
-                Input.Capital.Value,
-                Input.TasaAnual.Value,
-                Input.CantidadCuotas.Value
+                Input.Capital!.Value,
+                Input.TasaAnual!.Value,
+                Input.CantidadCuotas!.Value
             );
 
             if (resultado.Error)
@@ -70,7 +73,7 @@ namespace Kuotasmig.Core.Pages
             else
             {
                 Planilla = resultado.Planilla;
-                CuotaCalculada = resultado.CuotaCalculada.ToString("N2");
+                CuotaCalculada = resultado.CuotaCalculada.ToString("N2", CultureInfo.InvariantCulture);
                 MensajeError = null;
             }
             return Page();
@@ -85,26 +88,18 @@ namespace Kuotasmig.Core.Pages
             MensajeError = null;
             return Page();
         }
-
-        // La exportación a Excel requerirá una biblioteca de terceros o un enfoque diferente.
-        // No se puede replicar directamente el método ExportToExcel de Web Forms.
-        // Podrías generar un archivo CSV o usar una biblioteca como EPPlus o ClosedXML.
-        // Por ahora, esta funcionalidad quedará pendiente.
+        
         public IActionResult OnPostExportarExcel()
         {
-            // Lógica de exportación a implementar
-            // Ejemplo rápido de CSV (requeriría más trabajo para formato Excel):
-            if (Planilla == null || !Planilla.Any())
+            // Lógica pendiente
+            MensajeError = "Funcionalidad de exportar a Excel pendiente de implementación.";
+            // Para que la UI se actualice, podrías necesitar recargar los datos
+            // si la exportación se hace en el mismo post.
+            // Por ahora, solo mostramos el mensaje.
+            if (ModelState.IsValid)
             {
-                 TempData["ErrorExportacion"] = "No hay datos para exportar.";
-                return Page();
+                 OnPostCalcular(); // Volver a calcular para que la tabla no desaparezca
             }
-            // Esta es una implementación muy básica.
-            // En una app real, usarías una librería para Excel (EPPlus, ClosedXML) o CSVHelper
-            // ... (Lógica para generar el archivo) ...
-            // return File(bytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "PlanillaAmortizacion.xlsx");
-
-            MensajeError = "Funcionalidad de exportar a Excel pendiente de implementación completa.";
             return Page();
         }
     }
