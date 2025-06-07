@@ -1,3 +1,14 @@
+// ===== INICIO DEL CÓDIGO AÑADIDO (SOLUCIÓN GLOBAL) =====
+// Sobrescribe el método de validación de números de jQuery para que acepte comas y puntos como separadores decimales.
+$.validator.methods.number = function (value, element) {
+    // Permite un campo opcional (vacío)
+    // La expresión regular valida números enteros o decimales, con comas o puntos como separadores.
+    return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+};
+// ===== FIN DEL CÓDIGO AÑADIDO =====
+
+
+// ===== CÓDIGO ORIGINAL DEL ARCHIVO site.js =====
 // call this from the developer console and you can control both instances
 var calendars = {};
 

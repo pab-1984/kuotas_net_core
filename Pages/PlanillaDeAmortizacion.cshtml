@@ -24,7 +24,6 @@
             <div class="form-group mb-3">
                 <label asp-for="Input.TasaAnual" class="control-label"></label>
                 <div class="input-group">
-                    @* Se mantiene type="text" para evitar la validación estricta del navegador *@
                     <input asp-for="Input.TasaAnual" class="form-control" type="text" />
                     <span class="input-group-text">%</span>
                 </div>
@@ -97,22 +96,6 @@
     }
 </form>
 
-@* ***** SECCIÓN DE SCRIPT AÑADIDA ***** *@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(document).ready(function () {
-            // Este script se adjunta al input de la Tasa Anual.
-            // Cada vez que el usuario escribe algo en él ('input' event)...
-            $('#Input_TasaAnual').on('input', function(e) {
-                // ...obtenemos el valor actual del campo.
-                var currentValue = $(this).val();
-                // Reemplazamos todas las comas (,) con puntos (.).
-                // Esto ayuda al usuario si su teclado numérico o configuración regional usa comas.
-                var newValue = currentValue.replace(/,/g, '.');
-                // Actualizamos el valor del campo con la versión que solo tiene puntos.
-                $(this).val(newValue);
-            });
-        });
-    </script>
 }
