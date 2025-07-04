@@ -1,4 +1,3 @@
--- Asegúrate de estar en la base de datos correcta
 USE p2015;
 
 -- Tabla HISTORIAL_PRESTAMOS (Ahora una tabla regular, sin system versioning)

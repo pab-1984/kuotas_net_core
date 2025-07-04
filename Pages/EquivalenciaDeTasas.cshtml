@@ -1,0 +1,145 @@
+﻿@page
+@model Kuotasmig.Core.Pages.EquivalenciaDeTasasModel
+@{
+    ViewData["Title"] = "Equivalencia de Tasas";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    @* --- Sección Tasa Anual a Equivalente --- *@
+    <div class="card mb-3">
+        <div class="card-header">Tasa Anual a Tasa Equivalente</div>
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-4 form-group">
+                    <label asp-for="InputAnual.TasaAnual"></label>
+                    <input asp-for="InputAnual.TasaAnual" class="form-control decimal-input" type="text" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="InputAnual.DiasEquivalencia"></label>
+                    <input asp-for="InputAnual.DiasEquivalencia" class="form-control" type="number" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <button type="submit" asp-page-handler="CalcularEqAnual" class="btn btn-primary w-100">Calcular Eq. Anual</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoEqAnual))
+            {
+                <div class="alert alert-success mt-2">Resultado: @Model.ResultadoEqAnual</div>
+            }
+        </div>
+    </div>
+
+    @* --- Sección Tasa Mensual a Efectiva Anual --- *@
+    <div class="card mb-3">
+        <div class="card-header">Tasa Mensual a Tasa Efectiva Anual</div>
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-4 form-group">
+                    <label asp-for="InputMensual.TasaMensual"></label>
+                    <input asp-for="InputMensual.TasaMensual" class="form-control decimal-input" type="text" />
+                </div>
+                <div class="col-md-4 form-group">
+                    <label asp-for="InputMensual.DiasCapitalizacionMensual"></label>
+                    <input asp-for="InputMensual.DiasCapitalizacionMensual" class="form-control" type="number" placeholder="Ej: 30 para mensual"/>
+                </div>
+                <div class="col-md-4 form-group">
+                    <button type="submit" asp-page-handler="CalcularEqMensual" class="btn btn-primary w-100">Calcular Ef. Anual</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoEqMensual))
+            {
+                <div class="alert alert-success mt-2">Resultado: @Model.ResultadoEqMensual</div>
+            }
+        </div>
+    </div>
+    
+    @* --- Sección Tasa Diaria a Efectiva Mensual --- *@
+    <div class="card mb-3">
+        <div class="card-header">Tasa Diaria a Tasa Efectiva Mensual</div>
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-8 form-group">
+                    <label asp-for="InputDiaria.TasaDiaria"></label>
+                    <input asp-for="InputDiaria.TasaDiaria" class="form-control decimal-input" type="text" />
+                </div>
+                 <div class="col-md-4 form-group">
+                    <button type="submit" asp-page-handler="CalcularEqDiaria" class="btn btn-primary w-100">Calcular Ef. Mensual</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoEqDiaria))
+            {
+                <div class="alert alert-success mt-2">Resultado: @Model.ResultadoEqDiaria</div>
+            }
+        </div>
+    </div>
+
+    @* --- Sección Lineal Anual a Efectiva Anual --- *@
+     <div class="card mb-3">
+        <div class="card-header">Tasa Lineal Anual a Tasa Efectiva Anual (Cap. Mensual)</div>
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-8 form-group">
+                    <label asp-for="InputLineal.TasaLinealAnual"></label>
+                    <input asp-for="InputLineal.TasaLinealAnual" class="form-control decimal-input" type="text" />
+                </div>
+                 <div class="col-md-4 form-group">
+                    <button type="submit" asp-page-handler="CalcularEfectivaDesdeLineal" class="btn btn-primary w-100">Calcular Ef. Anual</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoEfectivaDesdeLineal))
+            {
+                <div class="alert alert-success mt-2">Resultado: @Model.ResultadoEfectivaDesdeLineal</div>
+            }
+        </div>
+    </div>
+
+    @* --- Sección Efectiva Anual a Lineal Anual --- *@
+    <div class="card mb-3">
+        <div class="card-header">Tasa Efectiva Anual a Tasa Lineal Anual (Cap. Mensual)</div>
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-8 form-group">
+                    <label asp-for="InputEfectiva.TasaEfectivaAnual"></label>
+                    <input asp-for="InputEfectiva.TasaEfectivaAnual" class="form-control decimal-input" type="text" />
+                </div>
+                 <div class="col-md-4 form-group">
+                    <button type="submit" asp-page-handler="CalcularLinealDesdeEfectiva" class="btn btn-primary w-100">Calcular Lineal Anual</button>
+                </div>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.ResultadoLinealDesdeEfectiva))
+            {
+                <div class="alert alert-success mt-2">Resultado: @Model.ResultadoLinealDesdeEfectiva</div>
+            }
+        </div>
+    </div>
+
+    <hr />
+    <div class="form-group mt-3">
+        <button type="submit" asp-page-handler="LimpiarTodo" class="btn btn-secondary" formnovalidate>Limpiar Todos los Campos</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Script para normalizar separadores decimales en inputs de texto
+        $(document).ready(function () {
+            $('.decimal-input').on('input', function(e) {
+                var currentValue = $(this).val();
+                var newValue = currentValue.replace(/,/g, '.');
+                $(this).val(newValue);
+            });
+        });
+    </script>
+}

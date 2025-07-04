@@ -9,7 +9,18 @@ namespace Kuotasmig.Core.Services
 {
     public class CalculoAmortizacionService // Puedes renombrar esta clase a CalculoFinancieroService si prefieres más adelante
     {
-        // Dentro de la clase CalculoAmortizacionService
+        public int CalcularDiasTranscurridosReales(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            Console.WriteLine($"DÍAS 365 (Servicio): Desde={fechaDesde.ToShortDateString()}, Hasta={fechaHasta.ToShortDateString()}");
+
+            if (fechaHasta < fechaDesde)
+            {
+                return 0; // O podrías lanzar un error si prefieres
+            }
+
+            TimeSpan diferencia = fechaHasta.Subtract(fechaDesde);
+            return diferencia.Days;
+        }
 
         public class ResultadoItemMora
         {
