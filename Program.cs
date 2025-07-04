@@ -39,9 +39,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<CalculadoraService>(); 
 builder.Services.AddScoped<CalculoAmortizacionService>();
 
-// --- 4. Configuración de Sesión y Localización ---
-// Nota: ASP.NET Core Identity usa cookies para la autenticación, no sesiones.
-// Puedes mantener la sesión para otros propósitos si lo necesitas.
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     var supportedCultures = new[] { new CultureInfo("en-US") };
