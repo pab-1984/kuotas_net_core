@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Localization;
 var builder = WebApplication.CreateBuilder(args);
 
 // --- 1. Configuración de la Base de Datos con EF Core ---
-var connectionString = builder.Configuration.GetConnectionString("P2015ConnectionString") ?? throw new InvalidOperationException("Connection string 'P2015ConnectionString' not found.");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'P2015ConnectionString' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
