@@ -1,0 +1,35 @@
+# Dependencies
+**/[Bb]in/
+**/[Oo]bj/
+**/packages/
+**/node_modules/
+# Temp files
+*.tmp
+*.bak
+*.vs
+.vs/
+# Rider
+.idea/
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Build results
+[Dd]ebug/
+[Rr]elease/
+# Secrets
+appsettings.Development.json # A menudo contiene secretos, considera si realmente quieres excluirlo o gestionarlo de otra forma.
+# Local Launch Settings
+Properties/launchSettings.json # A menudo específico del entorno local
+# Docker
+docker-compose.yml
+docker-compose.override.yml
+.dockerignore
+# Cache and Logs
+*.log
+*.cache
+# macOS
+.DS_Store
+
+# wwroot/

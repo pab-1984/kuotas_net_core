@@ -1,0 +1,23 @@
+@page
+@model Kuotasmig.Core.Pages.DefaultModel
+@{
+    ViewData["Title"] = "Inicio";
+    // Aquí sí usarías tu layout principal, por ejemplo _Layout.cshtml
+    // Layout = "_Layout";
+}
+
+<h1>Bienvenido a KuotasMig Core!</h1>
+
+@if (!string.IsNullOrEmpty(Model.NombreUsuario))
+{
+    <p>Hola, @Model.NombreUsuario!</p>
+    <p>Tipo de Usuario: @Model.TipoUsuario</p>
+    <form method="post" asp-page-handler="Logout">
+        <button type="submit" class="btn btn-link">Cerrar Sesión</button>
+    </form>
+}
+else
+{
+    <p>No has iniciado sesión.</p>
+    <a asp-page="/Login">Iniciar Sesión</a>
+}

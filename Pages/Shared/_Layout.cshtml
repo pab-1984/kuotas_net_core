@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KuotasMig Core</title>
+
+    @* Hojas de Estilo *@
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/font-awesome.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/custom.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/clndr.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/jqvmap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/lines.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-page="/Index">KuotasMig Core</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @* Puedes dejar esto vacío si no tienes links en la barra superior *@
+                    </ul>
+                    
+                    @* Esta es la parte del login que ya funciona correctamente *@
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="wrapper">
+        @* SIDEBAR (MENÚ LATERAL) - AQUÍ HEMOS RECONSTRUIDO TU MENÚ ANTIGUO *@
+        <nav class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a asp-page="/Index"><i class="fa fa-dashboard fa-fw nav_icon"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-cogs fa-fw nav_icon"></i> Calculadoras <span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a asp-page="/PlanillaDeAmortizacion">Planilla de Amortización</a></li>
+                            <li><a asp-page="/CalculoMoraDeCuotas">Cálculo Mora de Cuotas</a></li>
+                            <li><a asp-page="/CalculoCuotasIguales">Cuotas Iguales (Capital e Interés)</a></li>
+                            <li><a asp-page="/CalculoCuotasIgualesPesos">Cuotas Iguales (Pesos)</a></li>
+                            <li><a asp-page="/CalculoCuotasUIYPesos">Cuotas Iguales (UI y Pesos)</a></li>
+                            <li><a asp-page="/CancelacionAnticipada">Cancelación Anticipada</a></li>
+                            <li><a asp-page="/CalculoMoraCapital">Mora de un Capital</a></li>
+                            <li><a asp-page="/CalculoMoraVariasCuotasTodasVencidas">Mora Varias Cuotas (Vencidas)</a></li>
+                            <li><a asp-page="/CalculoDeInteresCompuesto">Interés Compuesto</a></li>
+                            <li><a asp-page="/CalculoDeInteresSimple">Interés Simple</a></li>
+                            <li><a asp-page="/DescuentoDocumentoCompuesto">Descuento Documento</a></li>
+                            <li><a asp-page="/DiasTranscurridos360">Días Transcurridos (360)</a></li>
+                            <li><a asp-page="/DiasTranscurridos365">Días Transcurridos (365)</a></li>
+                            <li><a asp-page="/EquivalenciaDeTasas">Equivalencia de Tasas</a></li>
+                            <li><a asp-page="/LiquidacionMoraDistintosMontos">Liquidación Mora (Varios)</a></li>
+                            <li><a asp-page="/RendimientoAnualReal">Rendimiento Anual Real</a></li>
+                            <li><a asp-page="/SumarDiasACiertaFecha">Sumar Días a Fecha</a></li>
+                        </ul>
+                    </li>
+                    @* Si tienes más menús desplegables, puedes añadirlos aquí *@
+                </ul>
+            </div>
+        </nav>
+
+        @* CONTENIDO PRINCIPAL DE LA PÁGINA *@
+        <div id="page-wrapper">
+            <div class="container-fluid pt-3 pb-3">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted mt-auto py-3">
+        <div class="container">
+            <div class="copy_layout text-center">
+                <p>Copyright &copy; @DateTime.Now.Year Modern. All Rights Reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a> </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    @* Scripts para que el menú desplegable funcione *@
+    <script src="~/js/metisMenu.min.js" asp-append-version="true"></script>
+    <script src="~/js/custom.js" asp-append-version="true"></script>
+    
+    @* Otros scripts que necesites *@
+    <script src="~/js/moment-2.2.1.js" asp-append-version="true"></script>
+    <script src="~/js/underscore-min.js" asp-append-version="true"></script>
+    <script src="~/js/clndr.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

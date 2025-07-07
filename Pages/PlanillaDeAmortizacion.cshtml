@@ -1,0 +1,101 @@
+﻿@page
+@model Kuotasmig.Core.Pages.PlanillaDeAmortizacionModel
+@{
+    ViewData["Title"] = "Planilla de Amortización";
+    Layout = "_Layout";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label asp-for="Input.Capital" class="control-label"></label>
+                <input asp-for="Input.Capital" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="Input.Capital" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label asp-for="Input.TasaAnual" class="control-label"></label>
+                <div class="input-group">
+                    <input asp-for="Input.TasaAnual" class="form-control" type="text" />
+                    <span class="input-group-text">%</span>
+                </div>
+                <span asp-validation-for="Input.TasaAnual" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group mb-3">
+                <label asp-for="Input.CantidadCuotas" class="control-label"></label>
+                <input asp-for="Input.CantidadCuotas" class="form-control" type="number" />
+                <span asp-validation-for="Input.CantidadCuotas" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <button type="submit" asp-page-handler="Calcular" class="btn btn-primary">Calcular</button>
+        <button type="submit" asp-page-handler="Limpiar" class="btn btn-secondary" formnovalidate>Limpiar</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.MensajeError))
+    {
+        <div class="alert alert-danger">@Model.MensajeError</div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.CuotaCalculada))
+    {
+        <div class="alert alert-info">
+            <h4>Monto de la Cuota: @Model.CuotaCalculada</h4>
+        </div>
+    }
+
+    @if (Model.Planilla != null && Model.Planilla.Any())
+    {
+        <h3 class="mt-4">Planilla de Amortización</h3>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nº CUOTA</th>
+                        <th>SALDO INICIAL</th>
+                        <th>CUOTA</th>
+                        <th>INTERESES</th>
+                        <th>AMORTIZACIÓN</th>
+                        <th>SALDO CAPITAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Planilla)
+                    {
+                        <tr>
+                            <td>@item.NumeroCuota</td>
+                            <td>@item.SaldoInicial</td>
+                            <td>@item.Cuota</td>
+                            <td>@item.Intereses</td>
+                            <td>@item.Amortizacion</td>
+                            <td>@item.SaldoCapital</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <form method="post" asp-page-handler="ExportarExcel" class="mt-3">
+             @* Campos ocultos para pasar los parámetros de nuevo si es necesario para la exportación *@
+            <input type="hidden" asp-for="Input.Capital" />
+            <input type="hidden" asp-for="Input.TasaAnual" /> 
+            <input type="hidden" asp-for="Input.CantidadCuotas" />
+            <button type="submit" class="btn btn-success">Exportar a Excel (Pendiente)</button>
+        </form>
+    }
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

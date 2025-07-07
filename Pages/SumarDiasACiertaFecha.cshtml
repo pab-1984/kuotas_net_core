@@ -1,0 +1,55 @@
+﻿@page
+@model Kuotasmig.Core.Pages.SumarDiasACiertaFechaModel
+@{
+    ViewData["Title"] = "Sumar Días Corridos a Cierta Fecha";
+    Layout = "_Layout"; // Asumiendo que usas tu layout principal
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<form method="post" class="mt-3">
+    @Html.AntiForgeryToken() @* Buena práctica para seguridad *@
+    
+    @* Mostrar errores de validación del modelo general o errores personalizados *@
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger">@Model.ErrorMessage</div>
+    }
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group mb-3">
+                <label asp-for="Input.FechaInicio" class="form-label"></label>
+                <input asp-for="Input.FechaInicio" class="form-control" />
+                <span asp-validation-for="Input.FechaInicio" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="form-group mb-3">
+                <label asp-for="Input.DiasASumar" class="form-label"></label>
+                <input asp-for="Input.DiasASumar" type="number" class="form-control" />
+                <span asp-validation-for="Input.DiasASumar" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group mb-3">
+        <button type="submit" asp-page-handler="Calcular" class="btn btn-primary">Calcular Fecha Resultante</button>
+        <button type="submit" asp-page-handler="Limpiar" class="btn btn-secondary" formnovalidate>Limpiar</button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.FechaResultado))
+    {
+        <div class="alert alert-success mt-3">
+            <h4>Fecha Resultante: @Model.FechaResultado</h4>
+        </div>
+    }
+</form>
+
+@* Sección para scripts de validación del lado del cliente *@
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
